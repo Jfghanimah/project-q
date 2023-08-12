@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Questline</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
+        <div class="container d-flex justify-content-center">
+            <a class="navbar-brand" href="/">Questline</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav mr-3">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/games">Games</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search games" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav ml-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+
+        <!-- Introduction Section -->
+        <section class="text-center slideshow">
+            <div class="slideshow-container">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="content text-center"> <!-- added text-center class and negative margin-top mt-n5 -->
+                <h1>Welcome to Questline!</h1>
+                <p class="lead">A community-driven platform where you can explore, rate, and review your favorite video
+                    games. Connect with other gamers, share your thoughts, and discover new favorites.</p>
+                <a href="/register" class="btn btn-outline-success">GET STARTED FOR FREE!</a>
+            </div>
+        </section>
+
+
+
+
+        <!-- About the Rating System -->
+        <section class="mt-5">
+            <h2>About Our Rating System</h2>
+            <p>We use a unique tier system (S, A, B, C, D, F) to rate games, allowing you to quickly gauge the
+                community's opinion. Create your tier lists, follow other gamers, and join the conversation!</p>
+        </section>
+
+
+        <h1 class="mb-4">Featured Games</h1>
+        <div class="row">
+            {% for i in "123" %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Game Title 1</h5>
+                        <p class="card-text">Short description of the game.</p>
+                        <a href="/game/1" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <h1 class="mt-4 mb-4">Top Rated Games</h1>
+        <div class="row">
+            {% for i in "123" %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Game Title 2</h5>
+                        <p class="card-text">Short description of the game.</p>
+                        <a href="/game/2" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <h1 class="mt-4 mb-4">Trending Games</h1>
+        <div class="row">
+            {% for i in "123" %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Game Title 3</h5>
+                        <p class="card-text">Short description of the game.</p>
+                        <a href="/game/3" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>Follow us on:</p>
+        <a href="#" class="text-white mx-2">Facebook</a>
+        <a href="#" class="text-white mx-2">Twitter</a>
+        <a href="#" class="text-white mx-2">Instagram</a>
+        <p class="mt-3">&copy; Questline 2023</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{% static 'slideshow.js' %}"></script>
+</body>
+
+</html>

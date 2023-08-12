@@ -1,0 +1,79 @@
+body {
+    background-color: #181818;
+    color: #f0f0f0;
+}
+
+.card {
+    background-color: #282828;
+    border: none;
+}
+
+.card-title .card-text {
+    color: #d0d0d0;
+}
+
+.btn-primary {
+    background-color: #383838;
+    border-color: #383838;
+    color: #f0f0f0;
+}
+
+.btn-primary:hover {
+    background-color: #484848;
+    border-color: #484848;
+    color: #f0f0f0;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #a0a0a0;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff;
+}
+
+footer {
+    background-color: #282828;
+}
+
+.content {
+    z-index: 1; /* Choose a value greater than the z-index of other elements it overlaps with */
+    position: relative; /* This ensures that the z-index applies */    
+    margin-top: -80px; /* Adjust this value to change the overlap */
+}
+
+
+
+
+
+.slideshow-container {
+    position: relative;
+    width: 900px;
+    height: 400px;
+    margin: 0 auto; /* Centers the container */
+    overflow: hidden;
+    background-image: url('static/game1.jpg'); /* Initial image */
+    background-size: cover;
+    opacity: 1;
+    transition: opacity 0.5s; /* Transition duration for fade effect */
+}
+
+.fade-out {
+    opacity: 0; /* Fully transparent to create fade-out effect */
+}
+
+.slideshow-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: 
+        linear-gradient(to right, #181818, transparent 15%, transparent 80%, #181818),
+        linear-gradient(to left, #181818, transparent 15%, transparent 80%, #181818),
+        linear-gradient(to bottom, #181818, transparent 35%, transparent 60%, #181818);
+        /*linear-gradient(to top, #181818, transparent 1%, transparent 80%, #181818);*/
+    pointer-events: none;
+}
+
