@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Introduction Section -->
+    <section class="text-center slideshow">
+        <div class="slideshow-container">
+            <div class="image-overlay"></div>
+        </div>
+        <div class="content text-center"> <!-- added text-center class and negative margin-top mt-n5 -->
+            <h1>Welcome to Questline!</h1>
+            <p class="lead">A community-driven platform where you can explore, rate, and review your favorite video
+                games. Connect with other gamers, share your thoughts, and discover new favorites.</p>
+            <a href="/register" class="btn btn-outline-success">GET STARTED FOR FREE!</a>
+        </div>
+    </section>
+
+
+    <!-- About the Rating System -->
+    <section class="mt-5">
+        <h2>About Our Rating System</h2>
+        <p>We use a unique tier system (S, A, B, C, D, F) to rate games, allowing you to quickly gauge the
+            community's opinion. Create your tier lists, follow other gamers, and join the conversation!</p>
+    </section>
+
+
+    <!-- Game Showcase -->
+    <h1 class="mb-4">Featured Games</h1>
+    <div class="row">
+        {% for i in "123" %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 1">
+                <div class="card-body">
+                    <h5 class="card-title">Game Title 1</h5>
+                    <p class="card-text">Short description of the game.</p>
+                    <a href="/game/1" class="btn btn-primary">More Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <h1 class="mt-4 mb-4">Top Rated Games</h1>
+    <div class="row">
+        {% for i in "123" %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 2">
+                <div class="card-body">
+                    <h5 class="card-title">Game Title 2</h5>
+                    <p class="card-text">Short description of the game.</p>
+                    <a href="/game/2" class="btn btn-primary">More Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <h1 class="mt-4 mb-4">Trending Games</h1>
+    <div class="row">
+        {% for i in "123" %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 3">
+                <div class="card-body">
+                    <h5 class="card-title">Game Title 3</h5>
+                    <p class="card-text">Short description of the game.</p>
+                    <a href="/game/3" class="btn btn-primary">More Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'slideshow.js' %}"></script>
+{% endblock %}

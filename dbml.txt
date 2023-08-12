@@ -1,0 +1,63 @@
+Table Games {
+  id int [pk]
+  title varchar
+  box_art varchar
+  release_date date
+  studios varchar
+  publishers varchar
+  description text
+  platform varchar
+  distributors varchar
+  sales_downloads int
+}
+
+Table Genres {
+  id int [pk]
+  name varchar
+  description varchar
+}
+
+Table Users {
+  id int [pk]
+  username varchar
+  email varchar
+  password varchar
+  profile_picture varchar
+}
+
+Table Ratings {
+  id int [pk]
+  user_id int [ref: > Users.id]
+  game_id int [ref: > Games.id]
+  rating_value int
+  review_text text
+}
+
+Table Lists {
+  id int [pk]
+  user_id int [ref: > Users.id]
+  name varchar
+  description varchar
+}
+
+Table Comments {
+  id int [pk]
+  user_id int [ref: > Users.id]
+  game_id int [ref: > Games.id]
+  comment_text text
+}
+
+Table User_Followers {
+  user_id int [ref: > Users.id]
+  follower_id int [ref: > Users.id]
+}
+
+Table Game_Genres {
+  game_id int [ref: > Games.id]
+  genre_id int [ref: > Genres.id]
+}
+
+Table List_Games {
+  list_id int [ref: > Lists.id]
+  game_id int [ref: > Games.id]
+}

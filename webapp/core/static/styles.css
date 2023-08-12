@@ -52,7 +52,7 @@ footer {
     height: 400px;
     margin: 0 auto; /* Centers the container */
     overflow: hidden;
-    background-image: url('static/game1.jpg'); /* Initial image */
+    background-image: url('game1.jpg'); /* Initial image */
     background-size: cover;
     opacity: 1;
     transition: opacity 0.5s; /* Transition duration for fade effect */
