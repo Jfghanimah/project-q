@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block head %}
 <link rel="stylesheet" href="{% static 'user_styles.css' %}">
 {% endblock %}
@@ -9,66 +8,66 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <!-- Profile Page Image or AD -->
+        <!-- Optional: Profile Page Image or Ad -->
     </div>
 
     <div class="row">
-
-
-        <!-- Profile card section -->
+        <!-- Profile Card Section -->
         <div class="col-md-3">
             <div class="card mb-4">
-                <img src="{{ MEDIA_URL }}pic1.jpg" class="card-img-top" alt="Profile Picture">
+                {% if request.user.profile_picture %}
+                    <img src="{{ request.user.profile_picture.url }}" class="card-img-top" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'default_profile_picture.jpg' %}" class="card-img-top" alt="Profile Picture">
+                {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">John Doe</h5>
-                    <p class="card-text">@johndoe</p>
-                    <p class="card-text">johndoe@example.com</p>
-                    <a href="#" class="btn btn-primary">Edit Profile</a>
+                    <h5 class="card-title">{{ request.user.username }}</h5>
+                    <p class="card-text">@{{ request.user.username }}</p>
+                    <p class="card-text">{{ request.user.email }}</p>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
                 </div>
 
-                <!-- Profile stats section -->
+                <!-- Profile Stats Section -->
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Date Joined: <span class="text-muted">Jan 1, 2020</span></li>
-                    <li class="list-group-item">Total Reviews: <span class="text-muted">15</span></li>
-                    <li class="list-group-item">Total Comments: <span class="text-muted">50</span></li>
-                    <li class="list-group-item">Followers: <span class="text-muted">100</span> | Following: <span
-                            class="text-muted">80</span></li>
+                    <li class="list-group-item">Date Joined: <span class="text-muted">{{ request.user.date_joined|date:"F j, Y" }}</span></li>
+                    <!-- Add additional stats if available -->
                 </ul>
             </div>
         </div>
 
-        <!-- Main content section -->
+        <!-- Main Content Section -->
         <div class="col-md-8">
-
-            <!-- About me card -->
+            <!-- About Me Card -->
+            {% if request.user.bio %}
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">About Me</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce suscipit varius
-                        mi.</p>
+                    <p class="card-text">{{ request.user.bio }}</p>
                 </div>
             </div>
+            {% endif %}
 
-            <!-- My games card -->
+            <!-- My Games Card -->
             <div class="card mt-4">
                 <div class="card-body">
                     <h5 class="card-title">My Games</h5>
                     <div class="row">
-                        <!-- Loop through games -->
-                        {% with ''|center:'5' as range %}
-                        {% for i in range %}
+                        {% for game in user_games %}
                         <div class="col-md-4">
                             <div class="card mb-4">
-                                <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game Title">
+                                {% if game.box_art %}
+                                    <img src="{{ game.box_art.url }}" class="card-img-top" alt="{{ game.title }}">
+                                {% endif %}
                                 <div class="card-body">
                                     <h5 class="card-title">{{ game.title }}</h5>
-                                    <a href="/game/1" class="btn btn-primary">More Details</a>
+                                    <a href="{% url 'game_detail' game.pk %}" class="btn btn-primary">More Details</a>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
-                        {% endwith %}
-                        <!-- End Loop -->
+                        {% empty %}
+                        <p>You have not added any games yet.</p>
+                        {% endempty %}
                     </div>
                 </div>
             </div>

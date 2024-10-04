@@ -8,18 +8,18 @@
           <h2>Register</h2>
         </div>
         <div class="card-body">
-          <form method="post">
+          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
               <div class="form-group">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}" value="{{ field.value|default_if_none:"" }}">
+                {{ field.label_tag }}
+                {{ field }}
                 {% if field.help_text %}
                   <small class="form-text text-muted">{{ field.help_text }}</small>
                 {% endif %}
                 {% if field.errors %}
                   <div class="text-danger">
-                    {{ field.errors.as_text }}
+                    {{ field.errors }}
                   </div>
                 {% endif %}
               </div>

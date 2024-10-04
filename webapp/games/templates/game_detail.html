@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ game.box_art.url }}" class="img-fluid" alt="{{ game.title }}">
+        </div>
+        <div class="col-md-8">
+            <h1>{{ game.title }}</h1>
+            <p>{{ game.description }}</p>
+            <!-- Display additional game details -->
+        </div>
+    </div>
+</div>
+{% endblock %}
