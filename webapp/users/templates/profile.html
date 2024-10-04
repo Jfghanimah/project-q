@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Page Image or AD -->
+    </div>
+
+    <div class="row">
+
+
+        <!-- Profile card section -->
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <img src="{{ MEDIA_URL }}pic1.jpg" class="card-img-top" alt="Profile Picture">
+                <div class="card-body">
+                    <h5 class="card-title">John Doe</h5>
+                    <p class="card-text">@johndoe</p>
+                    <p class="card-text">johndoe@example.com</p>
+                    <a href="#" class="btn btn-primary">Edit Profile</a>
+                </div>
+
+                <!-- Profile stats section -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Date Joined: <span class="text-muted">Jan 1, 2020</span></li>
+                    <li class="list-group-item">Total Reviews: <span class="text-muted">15</span></li>
+                    <li class="list-group-item">Total Comments: <span class="text-muted">50</span></li>
+                    <li class="list-group-item">Followers: <span class="text-muted">100</span> | Following: <span
+                            class="text-muted">80</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main content section -->
+        <div class="col-md-8">
+
+            <!-- About me card -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">About Me</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce suscipit varius
+                        mi.</p>
+                </div>
+            </div>
+
+            <!-- My games card -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">My Games</h5>
+                    <div class="row">
+                        <!-- Loop through games -->
+                        {% with ''|center:'5' as range %}
+                        {% for i in range %}
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game Title">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ game.title }}</h5>
+                                    <a href="/game/1" class="btn btn-primary">More Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endwith %}
+                        <!-- End Loop -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
