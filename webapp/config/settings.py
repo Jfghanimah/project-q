@@ -137,3 +137,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # USER OVERWRITING?
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# Login Redirect Setting
+LOGIN_REDIRECT_URL = 'home'  # or 'profile'

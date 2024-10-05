@@ -27,6 +27,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=150)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     # Add additional fields like 'bio' if needed
+    # brainstorm: bio, birthday, location,
     date_joined = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)  # For admin access
     is_active = models.BooleanField(default=True)  # For account activation
