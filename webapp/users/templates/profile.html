@@ -8,46 +8,42 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <!-- Optional: Profile Page Image or Ad -->
-    </div>
-
-    <div class="row">
         <!-- Profile Card Section -->
         <div class="col-md-3">
             <div class="card mb-4">
-                {% if request.user.profile_picture %}
-                    <img src="{{ request.user.profile_picture.url }}" class="card-img-top" alt="Profile Picture">
+                {% if profile_user.profile_picture %}
+                    <img src="{{ profile_user.profile_picture.url }}" class="card-img-top" alt="Profile Picture">
                 {% else %}
-                    <img src="{% static 'default_profile_picture.jpg' %}" class="card-img-top" alt="Profile Picture">
+                    <img src="{% static 'default_profile_picture.jpg' %}" class="card-img-top" alt="Default Profile Picture">
                 {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ request.user.username }}</h5>
-                    <p class="card-text">@{{ request.user.username }}</p>
-                    <p class="card-text">{{ request.user.email }}</p>
-                    <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+                    <h5 class="card-title">{{ profile_user.username }}</h5>
+                    <p class="card-text">@{{ profile_user.username }}</p>
+                    <p class="card-text">{{ profile_user.email }}</p>
+                    {% if is_owner %}
+                        <!-- Edit cog/icon linking to the edit profile page -->
+                        <a href="{% url 'edit_profile' profile_user.username %}" class="btn btn-secondary">
+                            <i class="fa fa-cog">COG</i> Edit Profile
+                        </a>
+                    {% endif %}
                 </div>
-
-                <!-- Profile Stats Section -->
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Date Joined: <span class="text-muted">{{ request.user.date_joined|date:"F j, Y" }}</span></li>
-                    <!-- Add additional stats if available -->
+                    <li class="list-group-item">
+                        Date Joined: <span class="text-muted">{{ profile_user.date_joined|date:"F j, Y" }}</span>
+                    </li>
                 </ul>
             </div>
         </div>
-
         <!-- Main Content Section -->
         <div class="col-md-8">
-            <!-- About Me Card -->
-            {% if request.user.bio %}
+            {% if profile_user.bio %}
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">About Me</h5>
-                    <p class="card-text">{{ request.user.bio }}</p>
+                    <p class="card-text">{{ profile_user.bio }}</p>
                 </div>
             </div>
             {% endif %}
-
-            <!-- My Games Card -->
             <div class="card mt-4">
                 <div class="card-body">
                     <h5 class="card-title">My Games</h5>
@@ -65,13 +61,26 @@
                             </div>
                         </div>
                         {% empty %}
-                        <p>You have not added any games yet.</p>
+                        <p>No games added yet.</p>
                         {% endfor %}
                     </div>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">My Game Lists</h5>
+                    {% if game_lists %}
+                        <ul>
+                        {% for list in game_lists %}
+                            <li>{{ list.name }}{% if list.description %} – {{ list.description }}{% endif %}</li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No game lists available.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
