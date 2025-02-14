@@ -1,9 +1,26 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_styles.css' %}">
+<style>
+  /* Inline overrides for dark-mode form controls */
+  .form-control {
+    background-color: #333 !important;
+    color: #fff !important;
+    border: 1px solid #555;
+  }
+  .form-control::placeholder {
+    color: #ccc;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card">
+      <div class="card bg-dark text-light">
         <div class="card-header bg-primary text-white">
           <h2>Register</h2>
         </div>
@@ -11,7 +28,7 @@
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
-              <div class="form-group">
+              <div class="mb-3">
                 {{ field.label_tag }}
                 {{ field }}
                 {% if field.help_text %}
@@ -24,7 +41,7 @@
                 {% endif %}
               </div>
             {% endfor %}
-            <div class="form-group text-center">
+            <div class="text-center">
               <button type="submit" class="btn btn-success">Register</button>
             </div>
           </form>

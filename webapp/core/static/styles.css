@@ -1,16 +1,16 @@
 body {
     background-color: #181818;
-    color: #f0f0f0;
+    /*color: #f0f0f0;*/
 }
 
 .card {
-    background-color: #282828 !important; /* Force dark background */
+    background-color: #282828; /* Force dark background */
     border: none;
 }
 
 /* Ensure the card title remains white and bold */
 .card .card-title {
-    color: #ffffff;
+    /*color: #ffffff;*/
     font-weight: bold;
 }
 

@@ -20,7 +20,7 @@ function changeImage() {
 
         // Fade in the new image
         container.style.opacity = 1;
-    }, 500); // Match this to the CSS transition duration
+    }, 800); // Match this to the CSS transition duration
 }
 
-setInterval(changeImage, 5000); // Change the image every 7 seconds
+setInterval(changeImage, 4500); // Change the image every 5 seconds

@@ -140,3 +140,4 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 # Login Redirect Setting
 LOGIN_REDIRECT_URL = 'home'  # or 'profile'
+LOGOUT_REDIRECT_URL = '/'
