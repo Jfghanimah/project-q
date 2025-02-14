@@ -1,0 +1,218 @@
+/* ============================= */
+/* Game Detail Page Enhancements */
+/* ============================= */
+
+/* ---------- Header Section ---------- */
+.header-section {
+  margin-bottom: 2rem;
+}
+.header-section h1 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.header-section p.text-muted {
+  font-size: 1rem;
+}
+
+/* Award Badge */
+.header-section .badge.bg-success {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Cover Art ---------- */
+.cover-art-container {
+  max-width: 300px;  /* Adjust as needed for a smaller cover art */
+  margin: 0 auto;
+}
+.cover-art-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* ---------- Ratings & Popularity ---------- */
+.ratings-section {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.ratings-section h4,
+.ratings-section h5 {
+  margin: 0;
+  font-weight: 600;
+}
+.ratings-section small {
+  color: #ccc;
+}
+
+/* Rating Icon Colors */
+.pq-rating-icon {
+  color: purple;
+}
+.your-rating-icon {
+  color: blue;
+}
+
+/* ---------- Action Buttons ---------- */
+.game-actions a.btn {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.game-actions a.btn:hover {
+  transform: scale(1.05);
+}
+
+/* ---------- Description Section ---------- */
+.description-section {
+  margin-top: 2rem;
+}
+.description-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+.description-section p {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+/* ---------- Details Section ---------- */
+.details-section {
+  margin-top: 2rem;
+}
+.details-section h5 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+.details-section ul.list-group {
+  border: none;
+}
+.details-section ul.list-group li {
+  padding: 0.75rem 1rem;
+  border: none;
+  background-color: transparent;
+}
+
+/* ---------- External Links ---------- */
+.external-links-section h5 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+.external-links-section ul.list-group li a {
+  color: #0d6efd;
+  transition: color 0.3s ease;
+}
+.external-links-section ul.list-group li a:hover {
+  color: #ffffff;
+}
+
+/* ---------- Media Gallery ---------- */
+.media-gallery-section {
+  margin-top: 2rem;
+  max-width: 1000px; /* Constrains the width */
+  margin-left: auto;
+  margin-right: auto;
+}
+.media-gallery-section h3 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.media-gallery-section .media-item {
+  width: 100%;
+  height: 400px;  /* Height is maintained */
+  overflow: hidden;
+}
+.media-gallery-section .media-item img,
+.media-gallery-section .media-item iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* ---------- Reposition Carousel Arrows ---------- */
+.carousel-control-prev,
+.carousel-control-next {
+  /* Remove any fixed width from the controls */
+  width: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.8;
+  /* Ensure they sit above the carousel container */
+  z-index: 2;
+}
+
+/* Move the previous arrow to the left outside the carousel */
+.carousel-control-prev {
+  left: -50px;  /* Adjust as needed */
+}
+
+/* Move the next arrow to the right outside the carousel */
+.carousel-control-next {
+  right: -50px;  /* Adjust as needed */
+}
+
+
+
+/* ---------- Reviews Section ---------- */
+.reviews-section {
+  margin-top: 2rem;
+}
+.reviews-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+.review-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.review-card .card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.review-card .card-subtitle {
+  font-size: 0.9rem;
+}
+
+/* ---------- More Like This ---------- */
+.more-like-this-section {
+  margin-top: 2rem;
+}
+.more-like-this-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+.similar-game-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.similar-game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+.similar-game-card .card-title {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* ---------- Utility Classes ---------- */
+.section-spacing {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+/* HTML Structure Notes:
+ 1. Wrap your header section in a div with class "header-section".
+ 2. Wrap your ratings info in a div with class "ratings-section".
+ 3. Wrap your buttons in a div with class "game-actions".
+ 4. Wrap the description area in a div with class "description-section".
+ 5. Wrap the details list in a div with class "details-section" and external links in "external-links-section".
+ 6. Wrap the carousel in a div with class "media-gallery-section", and each media item in a div with class "media-item" to enforce 16:9 ratio.
+ 7. Add class "review-card" to each review card.
+ 8. Wrap the similar games section in a div with class "more-like-this-section" and add class "similar-game-card" to each card.
+*/

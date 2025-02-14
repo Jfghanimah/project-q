@@ -1,16 +1,293 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'game_styles.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4">
-            <img src="{{ game.box_art.url }}" class="img-fluid" alt="{{ game.title }}">
-        </div>
-        <div class="col-md-8">
-            <h1>{{ game.title }}</h1>
-            <p>{{ game.description }}</p>
-            <!-- Display additional game details -->
-        </div>
+
+  <!-- Header Section -->
+  <div class="header-section row">
+    <div class="col-md-4">
+      <!-- Cover Art Container: Standardize size via CSS (e.g., set max-width/height) -->
+      <div class="cover-art-container">
+        <img src="{{ game.box_art.url }}" alt="{{ game.title }}" class="img-fluid rounded">
+        <!-- TODO: If game.box_art is empty, fallback to default_boxart.jpg -->
+      </div>
     </div>
+    <div class="col-md-8">
+      <h1 class="game-title">{{ game.title }}</h1>
+      <p class="text-muted">Released on {{ game.release_date|date:"F j, Y" }}</p>
+      <p>
+        <span class="badge bg-success">Game of the Year</span>
+        <!-- TODO: Hook up awards endpoint/data -->
+      </p>
+      <!-- Ratings & Popularity Section -->
+      <div class="ratings-section d-flex align-items-center my-3">
+        <div class="me-4 d-flex align-items-center">
+          <i class="bi bi-star-fill me-1 pq-rating-icon"></i>
+          <h4 class="mb-0">Project Q Rating: 7.1</h4>
+          <small class="ms-2">(123 ratings)</small>
+          <!-- TODO: Hook up community rating endpoint -->
+        </div>
+        <div class="d-flex align-items-center">
+          <i class="bi bi-person-fill me-1 your-rating-icon"></i>
+          <h5 class="mb-0">Your Rating: 7.9</h5>
+          <!-- TODO: Hook up user rating endpoint -->
+        </div>
+      </div>
+      <div class="mb-3">
+        <small class="text-muted">Likes: 450 | Views: 1,200</small>
+        <!-- TODO: Hook up popularity metrics -->
+      </div>
+      <!-- Interactive Action Buttons -->
+      <div class="game-actions mb-3">
+        <a href="#" class="btn btn-primary me-2">
+          <i class="bi bi-plus-circle me-1"></i> Add to Collection
+        </a>
+        <!-- TODO: Hook up Add to Collection action -->
+        <a href="#" class="btn btn-secondary me-2">
+          <i class="bi bi-heart me-1"></i> Wishlist
+        </a>
+        <!-- TODO: Hook up Wishlist action -->
+        <a href="#" class="btn btn-info">
+          <i class="bi bi-share me-1"></i> Share
+        </a>
+        <!-- TODO: Hook up Share action -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Description Section -->
+  <div class="description-section row mt-4">
+    <div class="col">
+      <h3>Description</h3>
+      <p>{{ game.description }}</p>
+      <!-- TODO: Hook up extended description if available -->
+    </div>
+  </div>
+
+  <!-- Details & "How to Play" Section -->
+  <div class="row mt-4">
+    <div class="col-md-6 details-section">
+      <h5>Details</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <strong>Genres:</strong>
+          {% for genre in game.genres.all %}
+            <button type="button" class="btn btn-outline-light btn-sm me-1 mb-1">
+              {{ genre.name }}
+            </button>
+          {% empty %}
+            N/A
+          {% endfor %}
+        </li>
+        <li class="list-group-item">
+          <strong>Platforms:</strong>
+          {% for platform in game.platforms.all %}
+            {{ platform.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            N/A
+          {% endfor %}
+        </li>
+        <li class="list-group-item">
+          <strong>Studios:</strong>
+          {% for studio in game.studios.all %}
+            {{ studio.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            N/A
+          {% endfor %}
+        </li>
+        <li class="list-group-item">
+          <strong>Publishers:</strong>
+          {% for publisher in game.publishers.all %}
+            {{ publisher.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            N/A
+          {% endfor %}
+        </li>
+        <li class="list-group-item">
+          <strong>Distributors:</strong>
+          {% for distributor in game.distributors.all %}
+            {{ distributor.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            N/A
+          {% endfor %}
+        </li>
+        <li class="list-group-item">
+          <strong>Age Rating:</strong> E
+          <!-- TODO: Hook up actual age rating -->
+        </li>
+        <li class="list-group-item">
+          <strong>Technical Specs:</strong> 20GB download, Windows 10+
+          <!-- TODO: Hook up technical specs if available -->
+        </li>
+        <li class="list-group-item">
+          <strong>How to Play:</strong> Use controller or keyboard.
+          <!-- TODO: Hook up dynamic how-to-play info if available -->
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6 external-links-section">
+      <h5>External Links</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <a href="#" class="text-info">
+            <i class="bi bi-globe2 me-1"></i> Official Website
+          </a>
+          <!-- TODO: Hook up official website link -->
+        </li>
+        <li class="list-group-item">
+          <a href="#" class="text-info">
+            <i class="bi bi-shop-window me-1"></i> Steam Page
+          </a>
+          <!-- TODO: Hook up store link -->
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Media Gallery Section -->
+  <div class="media-gallery-section row mt-5">
+    <div class="col">
+      <h3>Media Gallery</h3>
+      <!-- Carousel for Screenshots and Trailers -->
+      <div id="mediaCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-pause="false">
+        <div class="carousel-inner">
+          <!-- Wrap each media item in a ratio container to force 16:9 and a consistent, smaller size -->
+          <div class="carousel-item active">
+            <div class="ratio ratio-16x9 media-item">
+              <img src="/static/sample_screenshot1.jpg" class="d-block w-100" alt="Screenshot 1">
+              <!-- TODO: Replace with dynamic screenshot data -->
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="ratio ratio-16x9 media-item">
+              <img src="/static/sample_screenshot2.jpg" class="d-block w-100" alt="Screenshot 2">
+              <!-- TODO: Replace with dynamic screenshot data -->
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="ratio ratio-16x9 media-item">
+              <!-- Embedded Trailer -->
+              <iframe id="youtube-player" src="https://www.youtube.com/embed/mwRNg7NOV8M?enablejsapi=1" title="Trailer" allowfullscreen></iframe>
+              <!-- TODO: Replace with dynamic trailer data -->
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mediaCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mediaCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="reviews-section row mt-5">
+    <div class="col">
+      <h3>User Reviews</h3>
+      <!-- Sample Review 1 -->
+      <div class="card review-card mb-3">
+        <div class="card-body d-flex">
+          <div class="review-avatar me-3">
+            <img src="/static/profile_placeholder.jpg" alt="JohnDoe" class="rounded-circle" width="50" height="50">
+            <!-- TODO: Hook up user profile picture -->
+          </div>
+          <div class="review-content">
+            <h5 class="card-title">JohnDoe <small class="text-muted"><i class="bi bi-star-fill pq-rating-icon me-1"></i>8.0</small></h5>
+            <h6 class="card-subtitle mb-2 text-muted">April 1, 2025</h6>
+            <p class="card-text">This game is amazing! I loved the gameplay mechanics and visuals. Highly recommended.</p>
+            <p><small class="text-muted"><i class="bi bi-hand-thumbs-up me-1"></i>Likes: 15</small></p>
+            <!-- TODO: Hook up review like count and review actions -->
+          </div>
+        </div>
+      </div>
+      <!-- Sample Review 2 -->
+      <div class="card review-card mb-3">
+        <div class="card-body d-flex">
+          <div class="review-avatar me-3">
+            <img src="/static/profile_placeholder.jpg" alt="JaneSmith" class="rounded-circle" width="50" height="50">
+            <!-- TODO: Hook up user profile picture -->
+          </div>
+          <div class="review-content">
+            <h5 class="card-title">JaneSmith <small class="text-muted"><i class="bi bi-star-fill pq-rating-icon me-1"></i>7.5</small></h5>
+            <h6 class="card-subtitle mb-2 text-muted">March 28, 2025</h6>
+            <p class="card-text">Great game overall, though it has some minor bugs. Worth a play if you enjoy the genre.</p>
+            <p><small class="text-muted"><i class="bi bi-hand-thumbs-up me-1"></i>Likes: 8</small></p>
+            <!-- TODO: Hook up review like count and review actions -->
+          </div>
+        </div>
+      </div>
+      <!-- New Review Button -->
+      <div class="mb-3">
+        <a href="#" class="btn btn-primary">
+          <i class="bi bi-pencil me-1"></i> Write a Review
+        </a>
+        <!-- TODO: Hook up review submission modal/form -->
+      </div>
+    </div>
+  </div>
+
+  <!-- More Like This Section -->
+  <div class="more-like-this-section row mt-5">
+    <div class="col">
+      <h3>More Like This</h3>
+      <div class="row">
+        <!-- Sample Similar Game 1 -->
+        <div class="col-6 col-md-3 mb-3 similar-game-card">
+          <div class="card">
+            <img src="/static/game1.jpg" class="card-img-top" alt="Similar Game 1">
+            <div class="card-body p-2">
+              <h6 class="card-title">Similar Game 1</h6>
+              <!-- TODO: Hook up similar game link -->
+            </div>
+          </div>
+        </div>
+        <!-- Sample Similar Game 2 -->
+        <div class="col-6 col-md-3 mb-3 similar-game-card">
+          <div class="card">
+            <img src="/static/game1.jpg" class="card-img-top" alt="Similar Game 2">
+            <div class="card-body p-2">
+              <h6 class="card-title">Similar Game 2</h6>
+              <!-- TODO: Hook up similar game link -->
+            </div>
+          </div>
+        </div>
+        <!-- Sample Similar Game 3 -->
+        <div class="col-6 col-md-3 mb-3 similar-game-card">
+          <div class="card">
+            <img src="/static/game1.jpg" class="card-img-top" alt="Similar Game 3">
+            <div class="card-body p-2">
+              <h6 class="card-title">Similar Game 3</h6>
+              <!-- TODO: Hook up similar game link -->
+            </div>
+          </div>
+        </div>
+        <!-- Sample Similar Game 4 -->
+        <div class="col-6 col-md-3 mb-3 similar-game-card">
+          <div class="card">
+            <img src="/static/game1.jpg" class="card-img-top" alt="Similar Game 4">
+            <div class="card-body p-2">
+              <h6 class="card-title">Similar Game 4</h6>
+              <!-- TODO: Hook up similar game link -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{% static 'game.js' %}"></script>
 {% endblock %}

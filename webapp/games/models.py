@@ -39,7 +39,7 @@ class Game(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     release_date = models.DateField()
-    box_art = models.ImageField(upload_to='box_art/')
+    box_art = models.ImageField(upload_to='box_art/', default='box_art/default_boxart.jpg')
     studios = models.ManyToManyField(Studio, related_name='games')
     publishers = models.ManyToManyField(Publisher, related_name='games')
     distributors = models.ManyToManyField(Distributor, related_name='games')

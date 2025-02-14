@@ -1,48 +1,16 @@
 body {
     background-color: #181818;
-    /*color: #f0f0f0;*/
 }
 
 .card {
-    background-color: #282828; /* Force dark background */
     border: none;
 }
 
 /* Ensure the card title remains white and bold */
 .card .card-title {
-    /*color: #ffffff;*/
     font-weight: bold;
 }
 
-/* Ensure the card text is lighter gray */
-.card .card-text {
-    color: #e0e0e0;
-}
-
-
-.btn-primary {
-    background-color: #383838;
-    border-color: #383838;
-    color: #f0f0f0;
-}
-
-.btn-primary:hover {
-    background-color: #484848;
-    border-color: #484848;
-    color: #f0f0f0;
-}
-
-.navbar-dark .navbar-nav .nav-link {
-    color: #a0a0a0;
-}
-
-.navbar-dark .navbar-nav .nav-link:hover {
-    color: #ffffff;
-}
-
-footer {
-    background-color: #282828;
-}
 
 .content {
     z-index: 1; /* Choose a value greater than the z-index of other elements it overlaps with */

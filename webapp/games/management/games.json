@@ -1,0 +1,184 @@
+[
+    {
+        "title": "The Legend of Zelda: Breath of the Wild",
+        "release_date": "2017-03-03",
+        "publisher": "Nintendo",
+        "developer": "Nintendo EPD",
+        "platforms": [
+            "Nintendo Switch",
+            "Wii U"
+        ],
+        "genre": [
+            "Action-adventure",
+            "Open-world"
+        ],
+        "age_rating": "E10+"
+    },
+    {
+        "title": "Super Mario Odyssey",
+        "release_date": "2017-10-27",
+        "publisher": "Nintendo",
+        "developer": "Nintendo EPD",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Platformer",
+            "Adventure"
+        ],
+        "age_rating": "E10+"
+    },
+    {
+        "title": "Animal Crossing: New Horizons",
+        "release_date": "2020-03-20",
+        "publisher": "Nintendo",
+        "developer": "Nintendo EPD",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Simulation",
+            "Social"
+        ],
+        "age_rating": "E"
+    },
+    {
+        "title": "Metroid Dread",
+        "release_date": "2021-10-08",
+        "publisher": "Nintendo",
+        "developer": "MercurySteam, Nintendo EPD",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Action-adventure",
+            "Metroidvania"
+        ],
+        "age_rating": "T"
+    },
+    {
+        "title": "Splatoon 3",
+        "release_date": "2022-09-09",
+        "publisher": "Nintendo",
+        "developer": "Nintendo EPD",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Shooter",
+            "Multiplayer"
+        ],
+        "age_rating": "E10+"
+    },
+    {
+        "title": "Fire Emblem: Three Houses",
+        "release_date": "2019-07-26",
+        "publisher": "Nintendo",
+        "developer": "Intelligent Systems, Koei Tecmo",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Tactical RPG"
+        ],
+        "age_rating": "T"
+    },
+    {
+        "title": "Pokémon Scarlet and Violet",
+        "release_date": "2022-11-18",
+        "publisher": "Nintendo, The Pokémon Company",
+        "developer": "Game Freak",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "RPG",
+            "Adventure"
+        ],
+        "age_rating": "E"
+    },
+    {
+        "title": "Xenoblade Chronicles 3",
+        "release_date": "2022-07-29",
+        "publisher": "Nintendo",
+        "developer": "Monolith Soft",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "RPG",
+            "Action RPG"
+        ],
+        "age_rating": "T"
+    },
+    {
+        "title": "Luigi's Mansion 3",
+        "release_date": "2019-10-31",
+        "publisher": "Nintendo",
+        "developer": "Next Level Games",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Action-adventure",
+            "Puzzle"
+        ],
+        "age_rating": "E"
+    },
+    {
+        "title": "Super Smash Bros. Ultimate",
+        "release_date": "2018-12-07",
+        "publisher": "Nintendo",
+        "developer": "Bandai Namco Studios, Sora Ltd.",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Fighting",
+            "Multiplayer"
+        ],
+        "age_rating": "E10+"
+    },
+    {
+        "title": "Mario Kart 8 Deluxe",
+        "release_date": "2017-04-28",
+        "publisher": "Nintendo",
+        "developer": "Nintendo EPD",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Racing",
+            "Multiplayer"
+        ],
+        "age_rating": "E"
+    },
+    {
+        "title": "Bayonetta 3",
+        "release_date": "2022-10-28",
+        "publisher": "Nintendo",
+        "developer": "PlatinumGames",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Action",
+            "Hack and slash"
+        ],
+        "age_rating": "M"
+    },
+    {
+        "title": "Kirby and the Forgotten Land",
+        "release_date": "2022-03-25",
+        "publisher": "Nintendo",
+        "developer": "HAL Laboratory",
+        "platforms": [
+            "Nintendo Switch"
+        ],
+        "genre": [
+            "Platformer",
+            "Adventure"
+        ],
+        "age_rating": "E10+"
+    }
+]

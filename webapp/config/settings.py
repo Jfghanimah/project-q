@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#lm+mdplj6)-keou#k838u%zt#=f-1l+w^2pb!8t7*wgxv^9s_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['dev.g3hq.com', '127.0.0.1']
+ALLOWED_HOSTS = ['dev.g3hq.com', 'g3hq.com', '127.0.0.1']
 
 
 # Application definition
@@ -139,5 +139,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # Login Redirect Setting
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home'  # or 'profile'
 LOGOUT_REDIRECT_URL = '/'
