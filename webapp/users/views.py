@@ -43,8 +43,6 @@ def profile(request, username):
         'is_owner': is_owner,
         'is_following': is_following,
         'ratings': ratings,
-        'followers_list': followers_list,
-        'following_list': following_list,
     }
     return render(request, 'profile.html', context)
 

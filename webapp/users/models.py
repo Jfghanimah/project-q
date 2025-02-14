@@ -24,14 +24,16 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
-    username = models.CharField(max_length=150)
+    username = models.CharField(max_length=32)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
-    # Add additional fields like 'bio' if needed
-    # brainstorm: bio, birthday, location,
+    bio = models.TextField(blank=True, null=True)  # Added bio field
     date_joined = models.DateTimeField(auto_now_add=True)
+
+    # keep brainstorm: birthday, location, socials, theme, notifications, privacy, etc.
+    is_premium = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)  # For admin access
     is_active = models.BooleanField(default=True)  # For account activation
-
+    
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
