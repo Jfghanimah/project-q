@@ -1,5 +1,110 @@
+/* user_styles.css */
+
+/* General List Group Items */
 .list-group-item {
-    background-color: rgb(24, 26, 27);
+    background-color: #181a1b; /* Slightly darker for contrast */
     border-color: rgba(140, 130, 115, 0.13);
 }
 
+/* Profile Sidebar */
+.profile-sidebar {
+    background-color: #282828;
+    padding: 20px;
+    border-radius: 5px;
+    color: #f0f0f0;
+}
+.profile-sidebar img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+.profile-sidebar h3 {
+    margin-top: 15px;
+}
+.profile-details {
+    margin-bottom: 20px;
+}
+
+/* Bootstrap 5 Tabs (Dark Mode) */
+.nav-tabs {
+    border-bottom: 1px solid #383838; /* Optional underline below tabs */
+}
+.nav-tabs .nav-link {
+    background-color: #282828;
+    color: #f0f0f0;
+    border: none;
+    margin-right: 5px;
+}
+.nav-tabs .nav-link:hover {
+    background-color: #383838;
+    color: #fff;
+}
+.nav-tabs .nav-link.active {
+    background-color: #383838;
+    color: #fff;
+    border: none;
+}
+
+/* Tab Content Container */
+.tab-content {
+    background-color: #282828;
+    padding: 20px;
+    border-radius: 5px;
+    color: #f0f0f0;
+}
+
+/* Follower/Following Counts */
+.follow-counts {
+    display: flex;
+    justify-content: center;
+    gap: 30px;  /* Increased gap; adjust as needed */
+    margin-top: 10px;
+}
+
+.follow-counts a {
+    text-decoration: none !important;
+    color: #fff !important;
+}
+
+.follow-counts a:hover {
+    /* Remove underline on hover */
+    text-decoration: none !important;
+    color: #ccc !important;
+}
+
+.follow-counts .number {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #fff !important;
+}
+
+.follow-counts .label {
+    font-size: 0.9em;
+    color: #ccc !important;
+}
+
+/* Follow/Unfollow Buttons */
+
+/* Button for NOT following – green filled */
+.btn-follow {
+    background-color: #28a745;
+    border: 1px solid #28a745;
+    color: #fff;
+}
+.btn-follow:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Button for FOLLOWING state – transparent with white outline and light (grey) text */
+.btn-following {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #ccc;  /* Lighter grey for text */
+}
+.btn-following:hover {
+    background-color: #dc3545; /* Red on hover */
+    border-color: #dc3545;
+    color: #fff;
+}

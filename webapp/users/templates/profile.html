@@ -3,84 +3,117 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'user_styles.css' %}">
+
 {% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row">
-        <!-- Profile Card Section -->
-        <div class="col-md-3">
-            <div class="card mb-4">
-                {% if profile_user.profile_picture %}
-                    <img src="{{ profile_user.profile_picture.url }}" class="card-img-top" alt="Profile Picture">
-                {% else %}
-                    <img src="{% static 'default_profile_picture.jpg' %}" class="card-img-top" alt="Default Profile Picture">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ profile_user.username }}</h5>
-                    <p class="card-text">@{{ profile_user.username }}</p>
-                    <p class="card-text">{{ profile_user.email }}</p>
-                    {% if is_owner %}
-                        <!-- Edit cog/icon linking to the edit profile page -->
-                        <a href="{% url 'edit_profile' profile_user.username %}" class="btn btn-secondary">
-                            <i class="fa fa-cog">COG</i> Edit Profile
-                        </a>
-                    {% endif %}
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        Date Joined: <span class="text-muted">{{ profile_user.date_joined|date:"F j, Y" }}</span>
-                    </li>
-                </ul>
-            </div>
+  <div class="row">
+    <!-- Sidebar: Profile Information -->
+    <div class="col-md-3">
+        <div class="profile-sidebar text-center">
+        {% if profile_user.profile_picture %}
+            <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture">
+        {% else %}
+            <img src="{% static 'default_profile_picture.jpg' %}" alt="Default Profile Picture">
+        {% endif %}
+        <h3 class="mt-3">{{ profile_user.username }}</h3>
+        <p class="mb-1"><small>{{ profile_user.email }}</small></p>
+        <p class="mb-1"><small>Joined on {{ profile_user.date_joined|date:"F j, Y" }}</small></p>
+        
+        {% if is_owner %}
+            <!-- Edit Profile Button for the owner -->
+            <a href="{% url 'edit_profile' profile_user.username %}" class="btn btn-secondary btn-sm mt-2">
+            <i class="fa fa-cog"></i> Edit Profile
+            </a>
+        {% else %}
+        {% include '_follow_button.html' with target_user=profile_user is_following=is_following %}
+        {% endif %}
+        
+        {% if profile_user.bio %}
+            <hr>
+            <p class="profile-details">{{ profile_user.bio }}</p>
+        {% endif %}
+        
+        <!-- Follower/Following Counts Inline with links -->
+        <hr>
+        <div class="follow-counts">
+          <a href="{% url 'following_page' profile_user.username %}">
+            <span class="number">{{ profile_user.following.count }}</span>
+            <span class="label">Following</span>
+          </a>
+          <a href="{% url 'followers_page' profile_user.username %}">
+            <span class="number">{{ profile_user.followers.count }}</span>
+            <span class="label">Followers</span>
+          </a>
         </div>
-        <!-- Main Content Section -->
-        <div class="col-md-8">
-            {% if profile_user.bio %}
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">About Me</h5>
-                    <p class="card-text">{{ profile_user.bio }}</p>
-                </div>
-            </div>
-            {% endif %}
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">My Games</h5>
-                    <div class="row">
-                        {% for game in user_games %}
-                        <div class="col-md-4">
-                            <div class="card mb-4">
-                                {% if game.box_art %}
-                                    <img src="{{ game.box_art.url }}" class="card-img-top" alt="{{ game.title }}">
-                                {% endif %}
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ game.title }}</h5>
-                                    <a href="{% url 'game_detail' game.pk %}" class="btn btn-primary">More Details</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <p>No games added yet.</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">My Game Lists</h5>
-                    {% if game_lists %}
-                        <ul>
-                        {% for list in game_lists %}
-                            <li>{{ list.name }}{% if list.description %} – {{ list.description }}{% endif %}</li>
-                        {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>No game lists available.</p>
-                    {% endif %}
-                </div>
-            </div>
+
+
         </div>
     </div>
+  
+  
+    
+    <!-- Main Content: Bootstrap 5 Tabs -->
+    <div class="col-md-9">
+      <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="ratings-tab" data-bs-toggle="tab" data-bs-target="#ratings" type="button" role="tab" aria-controls="ratings" aria-selected="true">Ratings</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="gameLists-tab" data-bs-toggle="tab" data-bs-target="#gameLists" type="button" role="tab" aria-controls="gameLists" aria-selected="false">Game Lists</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab" aria-controls="activity" aria-selected="false">Activity</button>
+        </li>
+      </ul>
+      <div class="tab-content mt-3" id="profileTabsContent">
+        <!-- Ratings Tab -->
+        <div class="tab-pane fade show active" id="ratings" role="tabpanel" aria-labelledby="ratings-tab">
+          {% if ratings %}
+            <ul class="list-group">
+              {% for rating in ratings %}
+                <li class="list-group-item bg-dark text-light">
+                  <strong>{{ rating.game.title }}</strong>: {{ rating.rating_value }}
+                  {% if rating.review_text %}
+                    <br><em>{{ rating.review_text }}</em>
+                  {% endif %}
+                  <small class="d-block text-muted">Rated on {{ rating.created_at|date:"M d, Y" }}</small>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No ratings yet.</p>
+          {% endif %}
+        </div>
+        <!-- Game Lists Tab -->
+        <div class="tab-pane fade" id="gameLists" role="tabpanel" aria-labelledby="gameLists-tab">
+          {% if game_lists %}
+            <ul class="list-group">
+              {% for list in game_lists %}
+                <li class="list-group-item bg-dark text-light">
+                  <strong>{{ list.name }}</strong>
+                  {% if list.description %}
+                    <br><small>{{ list.description }}</small>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No game lists available.</p>
+          {% endif %}
+        </div>
+        <!-- Activity Tab -->
+        <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+          <p>Recent activity will be displayed here.</p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}

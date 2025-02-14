@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>{{ profile_user.username }} is Following</h2>
+  <ul class="list-group">
+    {% for item in following %}
+      {% with followed=item.user %}
+      <li class="list-group-item d-flex align-items-center bg-dark text-light">
+        <div class="d-flex align-items-center">
+          {% if followed.profile_picture %}
+            <img src="{{ followed.profile_picture.url }}" alt="{{ followed.username }}'s Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
+          {% else %}
+            <img src="{% static 'default_profile_picture.jpg' %}" alt="Default Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
+          {% endif %}
+          <div class="ms-3">
+            <a href="{% url 'profile' followed.username %}" class="text-white fw-bold">{{ followed.username }}</a>
+            <p class="mb-0" style="color: #aaa; font-size: 0.9em;">{{ followed.bio|default:"No bio available" }}</p>
+          </div>
+        </div>
+        {% if request.user.is_authenticated and request.user.pk != followed.pk %}
+          <div class="ms-auto">
+            {% include '_follow_button.html' with target_user=followed is_following=item.is_following %}
+          </div>
+        {% endif %}
+      </li>
+      {% endwith %}
+    {% empty %}
+      <li class="list-group-item bg-dark text-light">Not following anyone yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

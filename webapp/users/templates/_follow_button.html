@@ -1,0 +1,20 @@
+{# _follow_button.html #}
+{% if is_following %}
+  <button class="follow-toggle btn btn-following btn-sm" 
+          data-state="following"
+          data-username="{{ target_user.username }}"
+          data-follow-url="{% url 'api_follow_user' target_user.username %}"
+          data-unfollow-url="{% url 'api_unfollow_user' target_user.username %}"
+          data-action-url="{% url 'api_unfollow_user' target_user.username %}">
+    Following
+  </button>
+{% else %}
+  <button class="follow-toggle btn btn-follow btn-sm" 
+          data-state="not_following"
+          data-username="{{ target_user.username }}"
+          data-follow-url="{% url 'api_follow_user' target_user.username %}"
+          data-unfollow-url="{% url 'api_unfollow_user' target_user.username %}"
+          data-action-url="{% url 'api_follow_user' target_user.username %}">
+    Follow
+  </button>
+{% endif %}

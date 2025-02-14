@@ -40,16 +40,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-
 class UserFollower(models.Model):
-    user = models.ForeignKey(CustomUser, related_name='following', on_delete=models.CASCADE)
-    follower = models.ForeignKey(CustomUser, related_name='followers', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name='followers', on_delete=models.CASCADE)
+    follower = models.ForeignKey(CustomUser, related_name='following', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('user', 'follower')
 
     def __str__(self):
         return f"{self.follower.username} follows {self.user.username}"
+
     
 class Notification(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
