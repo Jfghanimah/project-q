@@ -112,10 +112,10 @@ body {
 .wavy-divider-wrapper {
     /* This wrapper handles the positioning */
     position: relative;
-    height: 100px; /* Allocate space for the visible part of the ribbon */
+    height: 150px; /* Allocate space for the visible part of the ribbon */
     margin-top: -30px; /* Pull the ribbon up to overlap the hero */
     z-index: 1;
-    overflow-x: hidden; /* This will hide the extra 1.3px from the SVG and remove the scrollbar */
+    overflow: hidden; /* This will hide any overflow from the SVG and remove all scrollbars */
 }
 
 .wavy-divider {
