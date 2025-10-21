@@ -12,9 +12,9 @@
     <img src="{% static 'images/about2.jpg' %}" class="hero-image" alt="About Project Q">
     <div class="hero-gradient-overlay"></div>
     <div class="hero-content">
-      <h1 class="display-4">About Project Q</h1>
-      <p class="lead">A community-driven platform for exploring, rating, and reviewing video games.</p>
-      <a href="{% url 'register' %}" class="btn btn-outline-success btn-lg mt-3">Get Started for Free!</a>
+      <h1 class="display-4 fw-bold">The Future of Game Discovery</h1>
+      <p class="lead">We're building more than a rating site. We're creating a smart, personalized platform for gamers.</p>
+      <a href="{% url 'register' %}" class="btn btn-accent btn-lg mt-3">Join the Community</a>
     </div>
   </div>
 </section>
@@ -26,17 +26,15 @@
     <div class="col-md-7">
       <h2>Our Mission</h2>
       <p>
-        At Project Q, we believe video games are more than just entertainment – they're a means of connection, creativity, and community.
-        Our mission is to empower gamers to share their opinions and discover new favorites through a unique, tier-based rating system
-        and an extensive game database.
+        At Project Q, our mission is to empower gamers. We're building a space where your voice matters, where you can connect with a passionate community, and where finding your next favorite game is an exciting journey of discovery, not a chore.
       </p>
       <h3 class="mt-4">Key Features</h3>
       <ul class="list-unstyled">
-        <li><i class="bi bi-check-circle-fill text-success me-2"></i>User Profiles &amp; Social Interaction</li>
-        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Innovative Tier-Based Game Ratings</li>
-        <li><i class="bi bi-check-circle-fill text-success me-2"></i>In-Depth Reviews &amp; Insights</li>
-        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Comprehensive Multi-Platform Game Database</li>
-        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Seamless Mobile &amp; Web Experience</li>
+        <li><i class="bi bi-check-circle-fill text-accent me-2"></i><strong>AI-Powered Recommendations:</strong> Get personalized suggestions for your next game based on your unique taste and play history.</li>
+        <li><i class="bi bi-check-circle-fill text-accent me-2"></i><strong>Deep Dive Discovery:</strong> Explore our vast library by genre, publisher, platform, and more to find hidden gems.</li>
+        <li><i class="bi bi-check-circle-fill text-accent me-2"></i><strong>Intuitive 1-10 Star Ratings:</strong> A clear, straightforward system that reflects the true community sentiment.</li>
+        <li><i class="bi bi-check-circle-fill text-accent me-2"></i><strong>Vibrant Community:</strong> Follow other gamers, create custom lists, and join the conversation.</li>
+        <li><i class="bi bi-check-circle-fill text-accent me-2"></i><strong>Comprehensive Game Database:</strong> An ever-expanding catalog of games across all platforms.</li>
       </ul>
     </div>
     <div class="col-md-5">
@@ -60,30 +58,33 @@
   <div class="row">
     <div class="col-md-4">
       <div class="card feature-card mb-4">
+        <img src="{% static 'images/ai-icon.png' %}" class="card-img-top w-25 mx-auto mt-4" alt="Smart Discovery">
         <div class="card-body">
-          <h4 class="card-title">Community-Driven</h4>
+          <h4 class="card-title text-center">Smart Discovery</h4>
           <p class="card-text">
-            Share your insights and connect with gamers worldwide. Every rating and review helps build a stronger community.
+            Our AI analyzes your ratings to suggest games you'll love. The more you rate, the smarter it gets.
           </p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card feature-card mb-4">
+        <img src="{% static 'images/discovery-icon.png' %}" class="card-img-top w-25 mx-auto mt-4" alt="Explore Everything">
         <div class="card-body">
-          <h4 class="card-title">Innovative Ratings</h4>
+          <h4 class="card-title text-center">Explore Everything</h4>
           <p class="card-text">
-            Our tier system (S, A, B, C, D, F) quickly communicates the community's sentiment about any game.
+            Filter and sort our massive database by your favorite genres, publishers, developers, and platforms.
           </p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card feature-card mb-4">
+        <img src="{% static 'images/community-icon.png' %}" class="card-img-top w-25 mx-auto mt-4" alt="Community Powered">
         <div class="card-body">
-          <h4 class="card-title">Comprehensive Database</h4>
+          <h4 class="card-title text-center">Community Powered</h4>
           <p class="card-text">
-            Browse an extensive catalog of games across all platforms – curated by gamers, for gamers.
+            Your ratings, reviews, and lists are the heart of Project Q. Help build the ultimate resource for gamers.
           </p>
         </div>
       </div>
@@ -97,7 +98,7 @@
       <p>
         Sign up today to start rating, reviewing, and discovering your next favorite game.
       </p>
-      <a href="{% url 'register' %}" class="btn btn-outline-success btn-lg">Get Started for Free!</a>
+      <a href="{% url 'register' %}" class="btn btn-accent btn-lg">Get Started for Free!</a>
     </div>
   </div>
 </div>

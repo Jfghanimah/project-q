@@ -20,7 +20,7 @@
   
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center sticky-top border-bottom border-secondary border-opacity-25">
     <div class="container d-flex justify-content-center">
-      <a class="navbar-brand" href="/">Project Q</a>
+      <a class="navbar-brand fw-bold" href="/"><span class="text-accent">[Q]</span> Project Q</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -39,7 +39,7 @@
         </ul>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search games" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button class="btn btn-accent" type="submit">Search</button>
         </form>
         <ul class="navbar-nav ms-3">
           {% if user.is_authenticated %}
@@ -70,15 +70,29 @@
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="bg-dark text-white text-center py-4 mt-auto">
+  <footer class="bg-dark text-white-50 py-5 mt-auto border-top border-secondary border-opacity-25">
     <div class="container">
-      <p class="mb-2">Follow us on:</p>
-      <div class="mb-3">
-        <a href="#" class="text-white mx-2 fs-4"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="text-white mx-2 fs-4"><i class="bi bi-twitter-x"></i></a>
-        <a href="#" class="text-white mx-2 fs-4"><i class="bi bi-instagram"></i></a>
+      <div class="row">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <h5 class="text-white"><span class="text-accent">[Q]</span> Project Q</h5>
+          <p>The Future of Game Discovery.</p>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+          <h5 class="text-white">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="{% url 'home' %}" class="text-white-50 text-decoration-none">Home</a></li>
+            <li><a href="/games" class="text-white-50 text-decoration-none">Games</a></li>
+            <li><a href="{% url 'about' %}" class="text-white-50 text-decoration-none">About</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5 class="text-white">Follow Us</h5>
+          <a href="#" class="text-white-50 me-3 fs-4 text-decoration-none"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="text-white-50 me-3 fs-4 text-decoration-none"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-white-50 fs-4 text-decoration-none"><i class="bi bi-facebook"></i></a>
+        </div>
       </div>
-      <p class="mb-0 text-white-50">&copy; G3 LLC 2025. All Rights Reserved.</p>
+      <p class="text-center mt-4 mb-0">&copy; G3 LLC 2025. All Rights Reserved.</p>
     </div>
   </footer>
 

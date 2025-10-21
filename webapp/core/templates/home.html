@@ -12,21 +12,21 @@
       <div class="image-overlay"></div>
     </div>
     <div class="content text-center">
-      <h1>Welcome to Project Q!</h1>
-      <p class="lead">
-        A community-driven platform where you can explore, rate, and review your favorite video games.
-        Connect with other gamers, share your thoughts, and discover new favorites.
+      <h1 class="display-3 fw-bold animate-slide-in-up">Discover Your Next Obsession.</h1>
+      <p class="lead animate-slide-in-up-delay">
+        Your definitive guide to the world of gaming, powered by community ratings and AI-driven insights.
       </p>
-      <a href="/register" class="btn btn-outline-success">GET STARTED FOR FREE!</a>
+      <a href="{% url 'register' %}" class="btn btn-accent btn-lg mt-2">GET STARTED FOR FREE!</a>
     </div>
   </section>
 
   <!-- About the Rating System -->
   <section class="mt-5">
-    <h2>About Our Rating System</h2>
+    <h2 class="text-center">Ratings You Can Trust</h2>
     <p>
-      We use a unique tier system (S, A, B, C, D, F) to rate games, allowing you to quickly gauge the community's opinion.
-      Create your tier lists, follow other gamers, and join the conversation!
+      We've moved beyond simple tiers. Project Q uses a classic 1-10 star rating system, giving you a clear and intuitive
+      look at what the community truly thinks. Your ratings help power our recommendation engine, so every vote
+      makes our platform smarter.
     </p>
   </section>
 
@@ -36,11 +36,14 @@
     {% for i in "123" %}
     <div class="col-md-4">
       <div class="card bg-dark text-white game-card mb-4">
+        <div class="rating-overlay">
+          <i class="bi bi-star-fill"></i> 8.7
+        </div>
         <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 1">
         <div class="card-body">
           <h5 class="card-title">Game Title 1</h5>
-          <p class="card-text">Short description of the game.</p>
-          <a href="/games/1" class="btn btn-outline-light">More Details</a>
+          <p class="card-text text-white-50">Short description of the game.</p>
+          <a href="/games/1" class="btn btn-outline-accent stretched-link card-button">More Details</a>
         </div>
       </div>
     </div>
@@ -51,11 +54,14 @@
     {% for i in "123" %}
     <div class="col-md-4">
       <div class="card bg-dark text-white game-card mb-4">
+        <div class="rating-overlay">
+          <i class="bi bi-star-fill"></i> 9.2
+        </div>
         <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 2">
         <div class="card-body">
           <h5 class="card-title">Game Title 2</h5>
-          <p class="card-text">Short description of the game.</p>
-          <a href="/games/2" class="btn btn-outline-light">More Details</a>
+          <p class="card-text text-white-50">Short description of the game.</p>
+          <a href="/games/2" class="btn btn-outline-accent stretched-link card-button">More Details</a>
         </div>
       </div>
     </div>
@@ -66,11 +72,14 @@
     {% for i in "123" %}
     <div class="col-md-4">
       <div class="card bg-dark text-white game-card mb-4">
+        <div class="rating-overlay">
+          <i class="bi bi-star-fill"></i> Trending
+        </div>
         <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 3">
         <div class="card-body">
           <h5 class="card-title">Game Title 3</h5>
-          <p class="card-text">Short description of the game.</p>
-          <a href="/games/3" class="btn btn-outline-light">More Details</a>
+          <p class="card-text text-white-50">Short description of the game.</p>
+          <a href="/games/3" class="btn btn-outline-accent stretched-link card-button">More Details</a>
         </div>
       </div>
     </div>
