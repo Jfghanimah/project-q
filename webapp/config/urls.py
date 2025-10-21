@@ -26,6 +26,10 @@ urlpatterns = [
     path('games/', include('games.urls')),
     path('', include('core.urls')),
     path('', include('users.urls')),
+
+    # API Authentication Endpoints
+    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
 ]
 
 if settings.DEBUG:

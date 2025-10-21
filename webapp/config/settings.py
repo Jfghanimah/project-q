@@ -31,16 +31,30 @@ ALLOWED_HOSTS = ['dev.g3hq.com', 'g3hq.com', '127.0.0.1']
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [    
+    # Django Core Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    'django.contrib.sites', # Required by allauth
+
+    # Third-Party Apps
+    'rest_framework',
+    'rest_framework.authtoken', # Needed for dj-rest-auth
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django_filters',
+
+    # Local Apps
     'users',
     'games',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -116,6 +131,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+# --- STATIC AND MEDIA FILES ---
+# ------------------------------------------------------------------------------
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -128,15 +145,50 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# --- DEFAULT KEY AND USER MODEL ---
+# ------------------------------------------------------------------------------
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# USER OVERWRITING?
+# Custom User Model
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# --- AUTHENTICATION & API SETTINGS ---
+# ------------------------------------------------------------------------------
+
+# Required for django-allauth
+SITE_ID = 1
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # Prints emails to console during development
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ]
+}
+
+# dj-rest-auth settings
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_HTTPONLY': True, # Use HttpOnly cookies for security
+    'JWT_AUTH_COOKIE': 'my-app-auth',
+    'JWT_AUTH_REFRESH_COOKIE': 'my-app-refresh-token',
+    'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserSerializer',
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+}
+
+# django-allauth settings
+# This section is crucial for dj-rest-auth registration and login to work correctly.
+ACCOUNT_LOGIN_METHODS = {'email'}  # Use email for login
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = 'none'      # 'mandatory' for production, 'none' for development
+
 
 # Login Redirect Setting
 LOGIN_URL = '/login/'

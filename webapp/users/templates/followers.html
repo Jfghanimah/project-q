@@ -9,27 +9,25 @@
 <div class="container mt-5">
   <h2>{{ profile_user.username }}'s Followers</h2>
   <ul class="list-group">
-    {% for item in followers %}
-      {% with follower=item.user %}
+    {% for follower in followers %}
       <li class="list-group-item d-flex align-items-center bg-dark text-light">
         <div class="d-flex align-items-center">
           {% if follower.profile_picture %}
             <img src="{{ follower.profile_picture.url }}" alt="{{ follower.username }}'s Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
           {% else %}
-            <img src="{% static 'default_profile_picture.jpg' %}" alt="Default Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
+            <img src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
           {% endif %}
           <div class="ms-3">
             <a href="{% url 'profile' follower.username %}" class="text-white fw-bold">{{ follower.username }}</a>
             <p class="mb-0" style="color: #aaa; font-size: 0.9em;">{{ follower.bio|default:"No bio available" }}</p>
           </div>
         </div>
-        {% if request.user.is_authenticated and request.user.pk != follower.pk %}
+        {% if request.user.is_authenticated and request.user != follower %}
           <div class="ms-auto">
-            {% include '_follow_button.html' with target_user=follower is_following=item.is_following %}
+            {% include '_follow_button.html' with target_user=follower is_following=follower.id in following_by_request_user %}
           </div>
         {% endif %}
       </li>
-      {% endwith %}
     {% empty %}
       <li class="list-group-item bg-dark text-light">No followers yet.</li>
     {% endfor %}

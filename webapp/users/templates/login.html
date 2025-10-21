@@ -25,29 +25,30 @@
           <h2>Login</h2>
         </div>
         <div class="card-body">
-          {% if form.errors %}
-            <div class="alert alert-danger">
-              {{ form.non_field_errors }}
-            </div>
-          {% endif %}
-          <form method="post">
+          <!-- Error message container -->
+          <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+          <form id="login-form" method="post" action="{% url 'rest_login' %}">
             {% csrf_token %}
-            {% for field in form %}
-              <div class="mb-3">
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                  <small class="form-text text-muted">{{ field.help_text }}</small>
-                {% endif %}
-                {% if field.errors %}
-                  <div class="text-danger">
-                    {{ field.errors }}
-                  </div>
-                {% endif %}
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              {{ form.email }}
+            </div>
+            <div class="input-group mb-4">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              {{ form.password }}
+            </div>
+            {% if form.errors %}
+              <div class="text-danger small mb-3">
+                {% for field in form %}
+                  {{ field.errors }}
+                {% endfor %}
               </div>
-            {% endfor %}
-            <div class="text-center">
-              <button type="submit" class="btn btn-success">Login</button>
+            {% endif %}
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">Login</button>
+            </div>
+            <div class="text-center mt-3">
+              <a href="{% url 'password_reset' %}" class="text-white-50">Forgot Password?</a>
             </div>
           </form>
         </div>
@@ -55,4 +56,52 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('login-form');
+  const errorMessageDiv = document.getElementById('error-message');
+
+  form.addEventListener('submit', function(event) {
+    // Prevent the default browser form submission
+    event.preventDefault();
+
+    // Hide previous errors
+    errorMessageDiv.style.display = 'none';
+    errorMessageDiv.textContent = '';
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // The CSRF token is crucial for security
+        'X-CSRFToken': data.csrfmiddlewaretoken
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      if (response.ok) {
+        // If login is successful (status 200-299), redirect to the homepage.
+        // The auth cookie is set automatically by the server.
+        window.location.href = "{% url 'home' %}";
+      } else {
+        // If there's an error, display it
+        return response.json();
+      }
+    })
+    .then(errorData => {
+      if (errorData) {
+        errorMessageDiv.textContent = errorData.non_field_errors || 'An unknown error occurred.';
+        errorMessageDiv.style.display = 'block';
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  });
+});
+</script>
 {% endblock %}

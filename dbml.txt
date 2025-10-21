@@ -50,14 +50,26 @@ Table Comments {
 Table User_Followers {
   user_id int [ref: > Users.id]
   follower_id int [ref: > Users.id]
+
+  Indexes {
+    (user_id, follower_id) [pk]
+  }
 }
 
 Table Game_Genres {
   game_id int [ref: > Games.id]
   genre_id int [ref: > Genres.id]
+
+  Indexes {
+    (game_id, genre_id) [pk]
+  }
 }
 
 Table List_Games {
   list_id int [ref: > Lists.id]
   game_id int [ref: > Games.id]
+
+  Indexes {
+    (list_id, game_id) [pk]
+  }
 }

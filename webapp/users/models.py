@@ -24,7 +24,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
-    username = models.CharField(max_length=32)
+    username = models.CharField(max_length=32, unique=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     bio = models.TextField(blank=True, null=True)  # Added bio field
     date_joined = models.DateTimeField(auto_now_add=True)

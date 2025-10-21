@@ -25,24 +25,42 @@
           <h2>Register</h2>
         </div>
         <div class="card-body">
-          <form method="post" enctype="multipart/form-data">
+          <!-- Error message container -->
+          <div id="error-message-container" class="alert alert-danger" style="display: none;"></div>
+          <form id="register-form" method="post" action="{% url 'rest_register' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            {% for field in form %}
-              <div class="mb-3">
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                  <small class="form-text text-muted">{{ field.help_text }}</small>
-                {% endif %}
-                {% if field.errors %}
-                  <div class="text-danger">
-                    {{ field.errors }}
-                  </div>
-                {% endif %}
-              </div>
-            {% endfor %}
-            <div class="text-center">
-              <button type="submit" class="btn btn-success">Register</button>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              {{ form.email }}
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              {{ form.username }}
+            </div>
+            {% if form.username.help_text %}
+              <div class="form-text text-white-50 mb-3" style="margin-top: -10px;">{{ form.username.help_text }}</div>
+            {% endif %}
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+              <input type="password" name="password2" class="form-control" placeholder="Confirm Password" required>
+            </div>
+            <div class="form-text text-white-50 mb-4">Your password must contain at least 8 characters and can't be a commonly used password.</div>
+
+            <div class="mb-4">
+              <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture (Optional)</label>
+              {{ form.profile_picture }}
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">Register</button>
+            </div>
+            <div class="text-center mt-3">
+              <p class="text-white-50 mb-0">Already have an account? 
+                <a href="{% url 'login' %}" class="fw-bold text-white">Login here</a>
+              </p>
             </div>
           </form>
         </div>
@@ -50,4 +68,61 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('register-form');
+  const errorContainer = document.getElementById('error-message-container');
+
+  form.addEventListener('submit', function(event) {
+    // Prevent the default browser form submission
+    event.preventDefault();
+
+    // Clear previous errors
+    errorContainer.style.display = 'none';
+    errorContainer.innerHTML = '';
+
+    // We use FormData because the form might contain files (profile_picture)
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: {
+        // Note: We don't set Content-Type for multipart/form-data.
+        // The browser sets it automatically with the correct boundary.
+        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+      },
+      body: formData
+    })
+    .then(response => {
+      // The registration API returns 201 Created on success
+      if (response.status === 201) {
+        // On successful registration, we can redirect to the login page
+        // or automatically log them in by calling the login API here.
+        // For simplicity, let's redirect to login.
+        window.location.href = "{% url 'login' %}?registered=true";
+      } else {
+        // If there's an error, display it
+        return response.json();
+      }
+    })
+    .then(errorData => {
+      if (errorData) {
+        let errorHtml = '<ul>';
+        for (const field in errorData) {
+          errorData[field].forEach(error => {
+            errorHtml += `<li>${field}: ${error}</li>`;
+          });
+        }
+        errorHtml += '</ul>';
+        errorContainer.innerHTML = errorHtml;
+        errorContainer.style.display = 'block';
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  });
+});
+</script>
 {% endblock %}

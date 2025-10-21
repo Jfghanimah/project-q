@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block head %}
+{% endblock %}
 {% block content %}
-<div class="container mt-5">
+<div class="container">
 
   <!-- Introduction Section -->
   <section class="text-center slideshow">
@@ -29,46 +31,46 @@
   </section>
 
   <!-- Game Showcase -->
-  <h1 class="mb-4">Featured Games</h1>
+  <h2 class="mb-4 section-title">Featured Games</h2>
   <div class="row">
     {% for i in "123" %}
     <div class="col-md-4">
-      <div class="card">
+      <div class="card bg-dark text-white game-card mb-4">
         <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 1">
         <div class="card-body">
           <h5 class="card-title">Game Title 1</h5>
           <p class="card-text">Short description of the game.</p>
-          <a href="/games/1" class="btn btn-primary">More Details</a>
+          <a href="/games/1" class="btn btn-outline-light">More Details</a>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
-  <h1 class="mt-4 mb-4">Top Rated Games</h1>
+  <h2 class="mt-4 mb-4 section-title">Top Rated Games</h2>
   <div class="row">
     {% for i in "123" %}
     <div class="col-md-4">
-      <div class="card">
+      <div class="card bg-dark text-white game-card mb-4">
         <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 2">
         <div class="card-body">
           <h5 class="card-title">Game Title 2</h5>
           <p class="card-text">Short description of the game.</p>
-          <a href="/games/2" class="btn btn-primary">More Details</a>
+          <a href="/games/2" class="btn btn-outline-light">More Details</a>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
-  <h1 class="mt-4 mb-4">Trending Games</h1>
+  <h2 class="mt-4 mb-4 section-title">Trending Games</h2>
   <div class="row">
     {% for i in "123" %}
     <div class="col-md-4">
-      <div class="card">
+      <div class="card bg-dark text-white game-card mb-4">
         <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 3">
         <div class="card-body">
           <h5 class="card-title">Game Title 3</h5>
           <p class="card-text">Short description of the game.</p>
-          <a href="/games/3" class="btn btn-primary">More Details</a>
+          <a href="/games/3" class="btn btn-outline-light">More Details</a>
         </div>
       </div>
     </div>

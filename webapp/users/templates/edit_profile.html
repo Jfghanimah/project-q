@@ -8,7 +8,9 @@
       <h2 class="mb-0">Edit Profile</h2>
     </div>
     <div class="card-body">
-      <form method="post" enctype="multipart/form-data">
+      <!-- Success/Error message containers -->
+      <div id="message-container" class="alert" style="display: none;"></div>
+      <form id="edit-profile-form" method="post" action="{% url 'rest_user_details' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form %}
           <div class="mb-3">
@@ -29,4 +31,62 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('edit-profile-form');
+  const messageContainer = document.getElementById('message-container');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Clear previous messages
+    messageContainer.style.display = 'none';
+    messageContainer.textContent = '';
+    messageContainer.classList.remove('alert-success', 'alert-danger');
+
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'PATCH', // Use PATCH for partial updates
+      headers: {
+        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        // No 'Content-Type' header for FormData, browser sets it
+      },
+      body: formData
+    })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(({ status, body }) => {
+      if (status === 200) {
+        messageContainer.textContent = 'Profile updated successfully!';
+        messageContainer.classList.add('alert-success');
+        messageContainer.style.display = 'block';
+        // Optionally, redirect after a delay
+        setTimeout(() => {
+          window.location.href = "{% url 'profile' user.username %}";
+        }, 1500);
+      } else {
+        let errorHtml = '<ul>';
+        for (const field in body) {
+          body[field].forEach(error => {
+            errorHtml += `<li>${field}: ${error}</li>`;
+          });
+        }
+        errorHtml += '</ul>';
+        messageContainer.innerHTML = errorHtml;
+        messageContainer.classList.add('alert-danger');
+        messageContainer.style.display = 'block';
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      messageContainer.textContent = 'An unexpected error occurred.';
+      messageContainer.classList.add('alert-danger');
+      messageContainer.style.display = 'block';
+    });
+  });
+});
+</script>
 {% endblock %}

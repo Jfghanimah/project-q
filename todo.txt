@@ -1,7 +1,7 @@
 Engineering Task List
 
 Done!
-    Set up custom user model (CustomUser) in the users app using email authentication. - Hard
+     Set up custom user model (CustomUser) in the users app using email authentication. - Hard
     Implemented CustomUserManager and CustomUser classes.
     Configured AUTH_USER_MODEL in settings.py.
     Moved List and Rating models to users/models.py to eliminate circular dependencies. - Medium
@@ -18,11 +18,11 @@ In Progress:
         -Creating edit_profile view and template.
         -Adding CustomUserChangeForm for profile updates?    
 
-
 To-Do:
 High Priority:
+    Check if its worth Refactoring to make sure were doing the API part properly to support apps in the future.
     Update all references to the user model across the project. - Medium
-        -Replace direct imports of User with get_user_model() or settings.AUTH_USER_MODEL.
+        -Replace direct imports of User with get_user_model() or settings.AUTH_USER_MODEL. or something like that
         -User registration, login, logout.
         -Profile viewing and editing.
         -List and rating functionalities.
@@ -69,6 +69,8 @@ Extra Features:
     Deploy the application to a production environment. - Hard
         -Choose hosting (e.g., Heroku, AWS, DigitalOcean).
         -Configure the production database and static files.
+    Investigate allowing users to showcase rank and stuff like that on the site?
+    
 
 Notes:
     Prioritize fixing existing bugs before adding new features.
