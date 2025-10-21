@@ -92,12 +92,22 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+    /* The container itself no longer transitions opacity */
+    /* transition: opacity 0.5s ease-in-out; */
+}
+
+/* New layers for cross-fading */
+.hero-slideshow-layer {
+    position: absolute;
+    inset: 0;
     background-size: cover;
     background-position: center;
-    transition: opacity 0.5s ease-in-out;
     /* The gradient is now the first background layer, on top of the image */
     background-image: radial-gradient(ellipse at center, rgba(18, 18, 18, 0.1) 0%, #181818 90%);
     animation: kenburns 20s ease-in-out infinite alternate;
+    /* Opacity transition will be controlled by JS */
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
 }
 
 .hero-content-container {

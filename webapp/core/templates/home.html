@@ -10,8 +10,10 @@
   <div 
     class="hero-slideshow-container"
     data-images='["{% static 'game5.jpg' %}", "{% static 'game2.jpg' %}", "{% static 'game3.jpg' %}", "{% static 'game4.jpg' %}"]'
+    data-transition-duration="1500"
   >
-    <!-- Images will be set via JS to avoid clipping the ribbon below -->
+    <!-- Two layers for cross-fading -->
+    <div class="hero-slideshow-layer"></div>
   </div>
   <div class="hero-content-container container">
     <h1 class="display-2 fw-bold animate-slide-in-up">Discover Your Next Obsession.</h1>
