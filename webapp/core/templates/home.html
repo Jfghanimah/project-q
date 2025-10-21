@@ -5,90 +5,142 @@
 {% endblock %}
 {% block content %}
 <div class="container">
+</div>
 
-  <!-- Introduction Section -->
-  <section class="text-center slideshow">
-    <div class="slideshow-container">
-      <div class="image-overlay"></div>
-    </div>
-    <div class="content text-center">
-      <h1 class="display-3 fw-bold animate-slide-in-up">Discover Your Next Obsession.</h1>
-      <p class="lead animate-slide-in-up-delay">
-        Your definitive guide to the world of gaming, powered by community ratings and AI-driven insights.
-      </p>
-      <a href="{% url 'register' %}" class="btn btn-accent btn-lg mt-2">GET STARTED FOR FREE!</a>
-    </div>
-  </section>
-
-  <!-- About the Rating System -->
-  <section class="mt-5">
-    <h2 class="text-center">Ratings You Can Trust</h2>
-    <p>
-      We've moved beyond simple tiers. Project Q uses a classic 1-10 star rating system, giving you a clear and intuitive
-      look at what the community truly thinks. Your ratings help power our recommendation engine, so every vote
-      makes our platform smarter.
+<!-- New Full-Bleed Hero Section -->
+<section class="hero-slideshow">
+  <div 
+    class="hero-slideshow-container" 
+    data-images='["{% static 'game5.jpg' %}", "{% static 'game2.jpg' %}", "{% static 'game3.jpg' %}", "{% static 'game4.jpg' %}"]'
+    style="background-image: radial-gradient(ellipse at center, rgba(18, 18, 18, 0.1) 0%, #181818 90%), url('{% static 'game5.jpg' %}');"
+  >
+    <!-- Initial image and data are now set here -->
+  </div>
+  <div class="hero-content-container container">
+    <h1 class="display-2 fw-bold animate-slide-in-up">Discover Your Next Obsession.</h1>
+    <p class="lead fs-4 animate-slide-in-up-delay">
+      Your definitive guide to the world of gaming, powered by community ratings and AI-driven insights.
     </p>
+    <a href="{% url 'register' %}" class="btn btn-accent btn-lg mt-3 animate-slide-in-up-delay">Join The Community</a>
+  </div>
+</section>
+
+<!-- Wavy Shaped Divider -->
+<div class="wavy-divider-wrapper">
+  <div class="wavy-divider">
+      <svg id="visual" viewBox="0 414 960 127" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" preserveAspectRatio="none">
+        <path d="M0 444L17.8 438.2C35.7 432.3 71.3 420.7 106.8 420.3C142.3 420 177.7 431 213.2 431.8C248.7 432.7 284.3 423.3 320 418.7C355.7 414 391.3 414 426.8 416C462.3 418 497.7 422 533.2 421.7C568.7 421.3 604.3 416.7 640 418.7C675.7 420.7 711.3 429.3 746.8 431.3C782.3 433.3 817.7 428.7 853.2 427.7C888.7 426.7 924.3 429.3 942.2 430.7L960 432L960 499C942.2 500.7 924.3 502.3 888.7 505.7C853.2 507 817.7 508.3 782.3 507.7C746.8 505.5 711.3 499.7 675.7 499.3C640 499 604.3 502 568.7 501.3C533.2 500.7 497.7 496.3 462.3 492.8C426.8 489.3 391.3 486.7 355.7 487C320 487.3 284.3 490.7 248.7 491C213.2 491.3 177.7 488.7 142.3 491.7C106.8 494.7 71.3 503.3 35.7 507.7L17.8 512L0 512Z" class="shape-fill"></path>
+      </svg>
+  </div>
+</div>
+
+<div class="main-page-content">
+  <!-- How It Works Section -->
+  <section class="container py-5 text-center">
+    <h2 class="section-title">A Smarter Way to Discover Games</h2>
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="how-it-works-card">
+          <div class="icon-wrapper"><i class="bi bi-compass-fill"></i></div>
+          <h4 class="mt-3">Explore</h4>
+          <p class="text-white-50">Dive into a massive library. Filter by genre, platform, or publisher to find hidden gems.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="how-it-works-card">
+          <div class="icon-wrapper"><i class="bi bi-star-half"></i></div>
+          <h4 class="mt-3">Rate</h4>
+          <p class="text-white-50">Your ratings fuel our AI. The more you rate, the smarter our recommendations become.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="how-it-works-card">
+          <div class="icon-wrapper"><i class="bi bi-people-fill"></i></div>
+          <h4 class="mt-3">Connect</h4>
+          <p class="text-white-50">Follow other gamers, create custom lists, and join a community that shares your passion.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Game Showcase -->
-  <h2 class="mb-4 section-title">Featured Games</h2>
-  <div class="row">
-    {% for i in "123" %}
-    <div class="col-md-4">
-      <div class="card bg-dark text-white game-card mb-4">
-        <div class="rating-overlay">
-          <i class="bi bi-star-fill"></i> 8.7
+  <!-- New Game Showcase -->
+  <section class="container py-5">
+    <h2 class="section-title">Trending Now</h2>
+    <div class="row">
+      <!-- Main Featured Game -->
+      <div class="col-lg-8 mb-4">
+        <div class="game-card-large">
+          <img src="{% static 'game1.jpg' %}" alt="Featured Game">
+          <div class="game-card-large-overlay">
+            <div>
+              <span class="badge bg-accent mb-2">Featured</span>
+              <h3>Cyberpunk 2077</h3>
+              <p class="d-none d-md-block">A story-driven, open-world RPG set in the dark future.</p>
+            </div>
+            <a href="#" class="btn btn-light stretched-link">View Details</a>
+          </div>
         </div>
-        <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 1">
-        <div class="card-body">
-          <h5 class="card-title">Game Title 1</h5>
-          <p class="card-text text-white-50">Short description of the game.</p>
-          <a href="/games/1" class="btn btn-outline-accent stretched-link card-button">More Details</a>
+      </div>
+      <!-- Side Games -->
+      <div class="col-lg-4">
+        <div class="row">
+          <div class="col-12 mb-4">
+            <div class="game-card-small">
+              <img src="{% static 'game2.jpg' %}" alt="Top Rated Game">
+              <div class="game-card-small-overlay">
+                <h5>The Witcher 3</h5>
+                <div class="rating-badge"><i class="bi bi-star-fill"></i> 9.8</div>
+              </div>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div>
+          <div class="col-12 mb-4">
+            <div class="game-card-small">
+              <img src="{% static 'game3.jpg' %}" alt="New Release">
+              <div class="game-card-small-overlay">
+                <h5>Baldur's Gate 3</h5>
+                <div class="rating-badge"><i class="bi bi-star-fill"></i> 9.7</div>
+              </div>
+              <a href="#" class="stretched-link"></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    {% endfor %}
-  </div>
-  <h2 class="mt-4 mb-4 section-title">Top Rated Games</h2>
-  <div class="row">
-    {% for i in "123" %}
-    <div class="col-md-4">
-      <div class="card bg-dark text-white game-card mb-4">
-        <div class="rating-overlay">
-          <i class="bi bi-star-fill"></i> 9.2
+  </section>
+
+  <!-- Community Spotlight Section -->
+  <section class="container py-5 text-center">
+    <h2 class="section-title">Powered by Community</h2>
+    <p class="lead text-white-50 mb-5">Meet our top contributors and discover their favorite games.</p>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="community-card">
+          <img src="https://i.pravatar.cc/100?u=a" class="community-avatar" alt="User Avatar">
+          <h5 class="mt-3">GamerX123</h5>
+          <p class="text-accent">152 Reviews</p>
         </div>
-        <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 2">
-        <div class="card-body">
-          <h5 class="card-title">Game Title 2</h5>
-          <p class="card-text text-white-50">Short description of the game.</p>
-          <a href="/games/2" class="btn btn-outline-accent stretched-link card-button">More Details</a>
+      </div>
+      <div class="col-md-4">
+        <div class="community-card">
+          <img src="https://i.pravatar.cc/100?u=b" class="community-avatar" alt="User Avatar">
+          <h5 class="mt-3">PixelQueen</h5>
+          <p class="text-accent">118 Reviews</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="community-card">
+          <img src="https://i.pravatar.cc/100?u=c" class="community-avatar" alt="User Avatar">
+          <h5 class="mt-3">RetroRogue</h5>
+          <p class="text-accent">97 Reviews</p>
         </div>
       </div>
     </div>
-    {% endfor %}
-  </div>
-  <h2 class="mt-4 mb-4 section-title">Trending Games</h2>
-  <div class="row">
-    {% for i in "123" %}
-    <div class="col-md-4">
-      <div class="card bg-dark text-white game-card mb-4">
-        <div class="rating-overlay">
-          <i class="bi bi-star-fill"></i> Trending
-        </div>
-        <img src="{% static 'game1.jpg' %}" class="card-img-top" alt="Game 3">
-        <div class="card-body">
-          <h5 class="card-title">Game Title 3</h5>
-          <p class="card-text text-white-50">Short description of the game.</p>
-          <a href="/games/3" class="btn btn-outline-accent stretched-link card-button">More Details</a>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+  </section>
 
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'slideshow.js' %}"></script>
+<script src="{% static 'hero-slideshow.js' %}"></script>
 {% endblock %}

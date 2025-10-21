@@ -18,9 +18,13 @@
 }
 
 body {
-    background-color: #181818;
     font-family: 'Poppins', sans-serif;
-    /* background-image: radial-gradient(circle at top, rgba(30, 30, 30, 0.9), #181818 50%); */
+    color: #fff;
+    /* The body gets the cool gradient background */
+    background-color: #181818; /* Fallback */
+    background-image: radial-gradient(ellipse at top, #2b2141, #181818 75%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* Apply a subtle fade-in animation to the main content of each page */
@@ -36,90 +40,16 @@ body {
 .card .card-title {
     font-weight: bold;
 }
-
-
-.content {
-    z-index: 1; /* Choose a value greater than the z-index of other elements it overlaps with */
-    position: relative; /* This ensures that the z-index applies */    
-    margin-top: -80px; /* Adjust this value to change the overlap */
+/* Remove default container padding for full-bleed hero */
+.container-fluid, .container {
+    padding-left: 0;
+    padding-right: 0;
 }
-
-
-.slideshow-container {
-    position: relative;
-    width: 900px;
-    height: 400px;
-    margin: 0 auto; /* Centers the container */
-    overflow: hidden;
-    background-image: url('game1.jpg'); /* Initial image */
-    background-size: cover;
-    opacity: 1;
-    transition: opacity 0.8s ease-in-out; /* Transition duration for fade effect */
-    animation: kenburns 20s ease-in-out infinite alternate;
-}
-
-.fade-out {
-    opacity: 0; /* Fully transparent to create fade-out effect */
-}
-
-.slideshow-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: 
-                linear-gradient(to right, #181818, transparent 15%, transparent 80%, #181818),
-                linear-gradient(to left, #181818, transparent 15%, transparent 80%, #181818),
-                linear-gradient(to bottom, #181818, transparent 35%, transparent 60%, #181818);
-    pointer-events: none;
-}
-
-/* Styling for game cards on the home page */
-.game-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #2a2a2a;
-    overflow: hidden; /* Important for image zoom effect */
-    position: relative; /* For stretched-link and overlay */
-}
-
-.game-card .card-img-top {
-    transition: transform 0.4s ease;
-}
-
-.game-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 1rem 3rem rgba(0,0,0,.5), 0 0 20px rgba(109, 40, 217, 0.4);
-}
-
-.game-card:hover .card-img-top {
-    transform: scale(1.05);
-}
-
-.game-card .card-button {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.game-card:hover .card-button {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.rating-overlay {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    z-index: 2;
-    backdrop-filter: blur(5px);
+/* This wrapper is for the content below the ribbon */
+.main-page-content {
+    /* This is now just a container for the content, with a transparent background */
+    background-color: transparent;
+    /* margin-top is removed to allow the shaped divider to connect the sections */
 }
 
 /* Styling for section titles */
@@ -129,6 +59,184 @@ body {
     padding-bottom: 10px;
     border-bottom: 2px solid #343a40;
     margin-bottom: 2rem !important;
+    display: inline-block;
+}
+
+/* --- NEW HERO STYLES --- */
+.hero-slideshow {
+    position: relative;
+    height: 75vh;
+    min-height: 500px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    margin-top: -24px; /* Pull up to navbar */
+    overflow: hidden; /* This is the fix for the "peeking" image */
+}
+
+.hero-slideshow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.5s ease-in-out;
+    /* The gradient is now the first background layer, on top of the image */
+    background-image: radial-gradient(ellipse at center, rgba(18, 18, 18, 0.1) 0%, #181818 90%);
+    animation: kenburns 20s ease-in-out infinite alternate;
+}
+
+.hero-content-container {
+    position: relative;
+    z-index: 2;
+    padding: 15px;
+    /* New text shadow for readability */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* --- WAVY DIVIDER --- */
+.wavy-divider-wrapper {
+    /* This wrapper handles the positioning */
+    position: relative;
+    height: 100px; /* Allocate space for the visible part of the ribbon */
+    margin-top: -30px; /* Pull the ribbon up to overlap the hero */
+    z-index: 1;
+    overflow-x: hidden; /* This will hide the extra 1.3px from the SVG and remove the scrollbar */
+}
+
+.wavy-divider {
+    /* No longer absolute; it's a normal block element now */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* This was clipping the bottom of the SVG, now fixed by wrapper */
+    line-height: 0;
+}
+
+.wavy-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px; /* This is the total height of our ribbon element */
+}
+
+/* The single, unified ribbon shape */
+.wavy-divider .shape-fill {
+    fill: #121518; /* A deeper, darker purple for a more subtle look */
+}
+
+
+/* --- HOW IT WORKS SECTION --- */
+.how-it-works-card {
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+.how-it-works-card:hover {
+    transform: translateY(-10px);
+}
+.icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #2a2a2a;
+    font-size: 2.5rem;
+    color: #6d28d9;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.how-it-works-card:hover .icon-wrapper {
+    background-color: #6d28d9;
+    color: #fff;
+}
+
+/* --- NEW GAME SHOWCASE --- */
+.game-card-large {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 100%;
+    min-height: 420px;
+}
+.game-card-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.game-card-large:hover img {
+    transform: scale(1.05);
+}
+.game-card-large-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent 60%);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+}
+.game-card-large-overlay .btn {
+    align-self: flex-start;
+    margin-top: 1rem;
+}
+
+.game-card-small {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 200px;
+}
+.game-card-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.game-card-small:hover img {
+    transform: scale(1.05);
+}
+.game-card-small-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 10%, transparent 70%);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #fff;
+}
+.rating-badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffc107; /* Bootstrap warning color for stars */
+}
+
+/* --- COMMUNITY SPOTLIGHT --- */
+.community-card {
+    background-color: #212529;
+    padding: 30px 20px;
+    border-radius: 15px;
+    border: 1px solid #343a40;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.community-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(109, 40, 217, 0.5);
+}
+.community-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #6d28d9;
+    object-fit: cover;
 }
 
 /* Styles for About Page Hero Section */
@@ -138,6 +246,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 50px 0;
+    overflow: hidden; /* Prevents any "peeking" from child elements */
 }
 
 .hero-image-container {
@@ -227,4 +336,11 @@ body {
 .animate-slide-in-up-delay {
     animation: slideInUp 0.8s ease-out 0.2s forwards;
     opacity: 0; /* Start hidden */
+}
+
+/* Override Bootstrap container padding for full-width hero */
+@media (min-width: 1400px) {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1200px;
+    }
 }

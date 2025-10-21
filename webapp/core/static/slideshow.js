@@ -1,4 +1,4 @@
-var images = ["static/game1.jpg", "static/game2.jpg", "static/game3.jpg", "static/game4.jpg"]; // Add more images to this array as needed
+var images = ["static/game5.jpg", "static/game2.jpg", "static/game3.jpg", "static/game4.jpg"]; // Add more images to this array as needed
 var currentImageIndex = 0;
 
 function changeImage() {
