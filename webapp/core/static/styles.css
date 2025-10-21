@@ -17,12 +17,21 @@
     }
 }
 
+:root {
+    --color-background: #181818;
+    --color-background-gradient-start: #2b2141;
+    --color-accent: #6d28d9;
+    --color-accent-hover: #5b21b6;
+    --color-divider: #121518;
+    --color-card-dark: #212529;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     color: #fff;
     /* The body gets the cool gradient background */
-    background-color: #181818; /* Fallback */
-    background-image: radial-gradient(ellipse at top, #2b2141, #181818 75%);
+    background-color: var(--color-background); /* Fallback */
+    background-image: radial-gradient(ellipse at top, var(--color-background-gradient-start), var(--color-background) 75%);
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
@@ -127,7 +136,7 @@ body {
 
 /* The single, unified ribbon shape */
 .wavy-divider .shape-fill {
-    fill: #121518; /* A deeper, darker purple for a more subtle look */
+    fill: var(--color-divider);
 }
 
 
@@ -146,13 +155,13 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: #2a2a2a;
+    background-color: #2a2a2a; /* Kept as is, or could be a new variable like --color-icon-bg */
     font-size: 2.5rem;
-    color: #6d28d9;
+    color: var(--color-accent);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 .how-it-works-card:hover .icon-wrapper {
-    background-color: #6d28d9;
+    background-color: var(--color-accent);
     color: #fff;
 }
 
@@ -221,7 +230,7 @@ body {
 
 /* --- COMMUNITY SPOTLIGHT --- */
 .community-card {
-    background-color: #212529;
+    background-color: var(--color-card-dark);
     padding: 30px 20px;
     border-radius: 15px;
     border: 1px solid #343a40;
@@ -229,13 +238,13 @@ body {
 }
 .community-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 0 30px rgba(109, 40, 217, 0.5);
+    box-shadow: 0 0 30px rgba(109, 40, 217, 0.5); /* Can't use variable in rgba() directly, this is fine */
 }
 .community-avatar {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 3px solid #6d28d9;
+    border: 3px solid var(--color-accent);
     object-fit: cover;
 }
 
@@ -291,41 +300,41 @@ body {
 
 /* Styling for feature cards on the about page */
 .feature-card {
-    background-color: #212529;
+    background-color: var(--color-card-dark);
     transition: transform 0.3s, background-color 0.3s ease-in-out;
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
-    background-color: #6d28d9;
+    background-color: var(--color-accent);
 }
 
 /* Custom Accent Color */
 .text-accent {
-    color: #6d28d9 !important;
+    color: var(--color-accent) !important;
 }
 
 .btn-accent {
-    background-color: #6d28d9;
-    border-color: #6d28d9;
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
     color: #fff;
     font-weight: 600;
 }
 
 .btn-accent:hover {
-    background-color: #5b21b6;
-    border-color: #5b21b6;
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
     color: #fff;
 }
 
 .btn-outline-accent {
-    color: #8b5cf6;
-    border-color: #8b5cf6;
+    color: var(--color-accent);
+    border-color: var(--color-accent);
 }
 .btn-outline-accent:hover {
     color: #fff;
-    background-color: #6d28d9;
-    border-color: #6d28d9;
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
 }
 
 /* Homepage Hero Text Animations */
