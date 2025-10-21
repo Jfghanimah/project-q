@@ -9,12 +9,8 @@
 
 <!-- New Full-Bleed Hero Section -->
 <section class="hero-slideshow">
-  <div 
-    class="hero-slideshow-container" 
-    data-images='["{% static 'game5.jpg' %}", "{% static 'game2.jpg' %}", "{% static 'game3.jpg' %}", "{% static 'game4.jpg' %}"]'
-    style="background-image: radial-gradient(ellipse at center, rgba(18, 18, 18, 0.1) 0%, #181818 90%), url('{% static 'game5.jpg' %}');"
-  >
-    <!-- Initial image and data are now set here -->
+  <div class="hero-slideshow-container">
+    <!-- Images will be set via JS -->
   </div>
   <div class="hero-content-container container">
     <h1 class="display-2 fw-bold animate-slide-in-up">Discover Your Next Obsession.</h1>
@@ -142,5 +138,34 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'hero-slideshow.js' %}"></script>
+<script>
+  // Simplified slideshow logic directly in the template for the new hero
+  document.addEventListener('DOMContentLoaded', () => {
+    const images = ["{% static 'game5.jpg' %}", "{% static 'game2.jpg' %}", "{% static 'game3.jpg' %}", "{% static 'game4.jpg' %}"];
+    let currentImageIndex = 0;
+    const container = document.querySelector(".hero-slideshow-container");
+    if (!container) return;
+
+    // Preload images
+    images.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    // Set the initial image with the gradient overlay
+    container.style.backgroundImage = `radial-gradient(ellipse at center, rgba(18, 18, 18, 0.1) 0%, #181818 90%), url('${images[0]}')`;
+
+    function cycleImages() {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      container.style.opacity = 0;
+      setTimeout(() => {
+        // We set the image as the second background layer, behind the gradient
+        container.style.backgroundImage = `radial-gradient(ellipse at center, rgba(18, 18, 18, 0.1) 0%, #181818 90%), url('${images[currentImageIndex]}')`;
+        container.style.opacity = 1;
+      }, 500); // Corresponds to CSS transition
+    }
+    // Start the slideshow
+    setInterval(cycleImages, 5000);
+  });
+</script>
 {% endblock %}
