@@ -12,9 +12,9 @@
     <div class="col-md-3">
         <div class="profile-sidebar text-center">
         {% if profile_user.profile_picture %}
-            <img src="{{ profile_user.profile_picture.url }}" alt="Profile Picture">
+            <img src="{{ profile_user.profile_picture.url }}" class="profile-avatar" alt="Profile Picture">
         {% else %}
-            <img src="{% static 'default_profile_picture.jpg' %}" alt="Default Profile Picture">
+            <img src="{% static 'images/default_profile_picture.jpg' %}" class="profile-avatar" alt="Default Profile Picture">
         {% endif %}
         <h3 class="mt-3">{{ profile_user.username }}</h3>
         <p class="mb-1"><small>{{ profile_user.email }}</small></p>
@@ -22,7 +22,7 @@
         
         {% if is_owner %}
             <!-- Edit Profile Button for the owner -->
-            <a href="{% url 'edit_profile' profile_user.username %}" class="btn btn-secondary btn-sm mt-2">
+            <a href="{% url 'edit_profile' profile_user.username %}" class="btn btn-outline-secondary btn-sm mt-2">
             <i class="fa fa-cog"></i> Edit Profile
             </a>
         {% else %}

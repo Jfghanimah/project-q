@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block body_class %}
+auth-page-bg
+{% endblock %}
+
 {% block head %}
 <link rel="stylesheet" href="{% static 'user_styles.css' %}">
 <style>
@@ -17,11 +21,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card bg-dark text-light">
-        <div class="card-header bg-primary text-white">
+      <div class="card auth-card text-light">
+        <div class="card-header text-center">
           <h2>Login</h2>
         </div>
         <div class="card-body">
@@ -45,7 +49,7 @@
               </div>
             {% endif %}
             <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-primary btn-lg">Login</button>
+              <button type="submit" class="btn btn-auth btn-lg">Login</button>
             </div>
             <div class="text-center mt-3">
               <a href="{% url 'password_reset' %}" class="text-white-50">Forgot Password?</a>

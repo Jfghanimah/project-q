@@ -95,6 +95,18 @@
   background-color: transparent;
 }
 
+/* Detail "Pills" for genres, platforms, etc. */
+.detail-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.detail-pills .badge {
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.4em 0.8em;
+}
+
 /* ---------- External Links ---------- */
 .external-links-section h5 {
   margin-bottom: 1rem;

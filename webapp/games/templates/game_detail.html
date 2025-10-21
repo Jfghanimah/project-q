@@ -76,45 +76,53 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <strong>Genres:</strong>
-          {% for genre in game.genres.all %}
-            <button type="button" class="btn btn-outline-light btn-sm me-1 mb-1">
-              {{ genre.name }}
-            </button>
-          {% empty %}
-            N/A
-          {% endfor %}
+          <div class="detail-pills mt-1">
+            {% for genre in game.genres.all %}
+              <span class="badge rounded-pill bg-secondary">{{ genre.name }}</span>
+            {% empty %}
+              <span class="text-muted">N/A</span>
+            {% endfor %}
+          </div>
         </li>
         <li class="list-group-item">
           <strong>Platforms:</strong>
-          {% for platform in game.platforms.all %}
-            {{ platform.name }}{% if not forloop.last %}, {% endif %}
-          {% empty %}
-            N/A
-          {% endfor %}
+          <div class="detail-pills mt-1">
+            {% for platform in game.platforms.all %}
+              <span class="badge rounded-pill bg-secondary">{{ platform.name }}</span>
+            {% empty %}
+              <span class="text-muted">N/A</span>
+            {% endfor %}
+          </div>
         </li>
         <li class="list-group-item">
           <strong>Studios:</strong>
-          {% for studio in game.studios.all %}
-            {{ studio.name }}{% if not forloop.last %}, {% endif %}
-          {% empty %}
-            N/A
-          {% endfor %}
+          <div class="detail-pills mt-1">
+            {% for studio in game.studios.all %}
+              <span class="badge rounded-pill bg-secondary">{{ studio.name }}</span>
+            {% empty %}
+              <span class="text-muted">N/A</span>
+            {% endfor %}
+          </div>
         </li>
         <li class="list-group-item">
           <strong>Publishers:</strong>
-          {% for publisher in game.publishers.all %}
-            {{ publisher.name }}{% if not forloop.last %}, {% endif %}
-          {% empty %}
-            N/A
-          {% endfor %}
+          <div class="detail-pills mt-1">
+            {% for publisher in game.publishers.all %}
+              <span class="badge rounded-pill bg-secondary">{{ publisher.name }}</span>
+            {% empty %}
+              <span class="text-muted">N/A</span>
+            {% endfor %}
+          </div>
         </li>
         <li class="list-group-item">
           <strong>Distributors:</strong>
-          {% for distributor in game.distributors.all %}
-            {{ distributor.name }}{% if not forloop.last %}, {% endif %}
-          {% empty %}
-            N/A
-          {% endfor %}
+          <div class="detail-pills mt-1">
+            {% for distributor in game.distributors.all %}
+              <span class="badge rounded-pill bg-secondary">{{ distributor.name }}</span>
+            {% empty %}
+              <span class="text-muted">N/A</span>
+            {% endfor %}
+          </div>
         </li>
         <li class="list-group-item">
           <strong>Age Rating:</strong> E
