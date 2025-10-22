@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Set up the initial state
   function setLayerImage(layer, imageIndex) {
-    layer.style.backgroundImage = `radial-gradient(ellipse at center, rgba(18, 18, 18, 0.1) 0%, #181818 90%), url('${images[imageIndex]}')`;
+    // The visual effects are now handled by the CSS overlay, so we just set the image.
+    layer.style.backgroundImage = `url('${images[imageIndex]}')`;
   }
   
   setLayerImage(layers[0], currentImageIndex);

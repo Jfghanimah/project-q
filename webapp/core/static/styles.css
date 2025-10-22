@@ -110,20 +110,31 @@ body {
     transition: opacity 1.5s ease-in-out;
 }
 
+/* Clean slate: A simple, semi-transparent white overlay */
+.hero-slideshow-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1; /* Sits above the images but below the text */
+    background-color: rgba(50, 50, 50, 0.3);
+    pointer-events: none; /* Ensure the overlay doesn't interfere with mouse events */
+}
+
 .hero-content-container {
     position: relative;
-    z-index: 2;
-    padding: 15px;
-    /* New text shadow for readability */
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    z-index: 2; /* Ensures text is on top of the new overlay */
+    max-width: 800px; /* Constrain width for better readability on large screens */
+    
+    /* Remove the background and border styles from the text container */
+    padding: 1rem; /* Add some padding so text doesn't touch edges */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); /* Keep text shadow for readability */
 }
 
 /* --- WAVY DIVIDER --- */
 .wavy-divider-wrapper {
     /* This wrapper handles the positioning */
     position: relative;
-    height: 150px; /* Allocate space for the visible part of the ribbon */
-    margin-top: -30px; /* Pull the ribbon up to overlap the hero */
+    height: 100px; /* Allocate space for the visible part of the ribbon */
+    margin-top: -80px; /* Pull the ribbon up to overlap the hero */
     z-index: 1;
     overflow: hidden; /* This will hide any overflow from the SVG and remove all scrollbars */
 }
