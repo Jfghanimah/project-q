@@ -28,7 +28,6 @@ class Command(BaseCommand):
             platforms_list = entry.get('platforms', [])
             genres_list = entry.get('genre', [])
             age_rating = entry.get('age_rating', '')
-
             # Create or get the Publisher (you can fill in description as needed)
             publisher, _ = Publisher.objects.get_or_create(name=publisher_name, defaults={'description': ''})
             # Create or get the Studio from the 'developer' field
@@ -38,7 +37,7 @@ class Command(BaseCommand):
             game, created = Game.objects.get_or_create(
                 title=title,
                 release_date=release_date,
-                defaults={'description': f"Age Rating: {age_rating}", 'box_art': None}
+                defaults={'description': f"Age Rating: {age_rating}", 'box_art': "box_art/default_boxart.jpg"}
             )
             if created:
                 # Add relationships
