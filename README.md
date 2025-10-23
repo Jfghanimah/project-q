@@ -1,4 +1,4 @@
-# social-game-rating
+# project-q
 
 **Project Q** is a community-driven game rating platform designed to connect video game enthusiasts from around the world. Reminiscent of platforms like IMDB or Letterboxd, it allows users to rate, review, and discuss their favorite games.
 
@@ -70,8 +70,8 @@ By building out these endpoints, we ensure that when development begins on the i
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/social-game-rating.git
-    cd social-game-rating
+    git clone https://github.com/Jfghanimah/project-q.git
+    cd project-q
     ```
 2.  **Set up the environment:**
     *(Instructions for setting up a virtual environment, installing dependencies from `requirements.txt`, and running migrations will be added here.)*
