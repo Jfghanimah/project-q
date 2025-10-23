@@ -161,3 +161,6 @@ cython_debug/
 
 # Django collected static files
 static_collected/
+
+# socket
+*.sock
