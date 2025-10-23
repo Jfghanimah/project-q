@@ -74,7 +74,7 @@ check_status "Database migrations"
 
 # Restart the service
 echo "Restarting Gunicorn service..."
-sudo systemctl restart social-game-rating
+sudo systemctl restart project-q
 check_status "Service restart"
 
 echo "✨ Deployment completed successfully at $(date)!"

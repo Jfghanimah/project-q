@@ -6,3 +6,5 @@ requests
 dj-rest-auth 
 django-allauth 
 djangorestframework-simplejwt
+# Production server requirements
+gunicorn==23.0.0
