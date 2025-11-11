@@ -165,6 +165,7 @@ def profile(request, username):
             user=profile_user, follower=request.user).exists()
 
     # Correctly fetch followers and following:
+    # todo what is this for?
     followers_list = profile_user.followers.all()  # People following this user
     following_list = profile_user.following.all()    # People this user is following
 
