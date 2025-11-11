@@ -31,23 +31,16 @@ echo "Fetching updates..."
 git fetch --all
 check_status "Git fetch"
 
-# Check if we're behind the remote
-LOCAL=$(git rev-parse @)
-REMOTE=$(git rev-parse @{u})
-BASE=$(git merge-base @ @{u})
-
-if [ $LOCAL = $REMOTE ]; then
-    echo "Up-to-date, no deployment needed"
-    exit 0
-elif [ $LOCAL = $BASE ]; then
-    echo "Behind remote, updating..."
-    # Pull latest changes
-    git pull
-    check_status "Git pull"
-else
-    echo "Local changes exist. Please commit or stash them first."
+# Check for uncommitted changes before pulling
+if ! git diff-index --quiet HEAD --; then
+    echo "✗ Uncommitted changes detected. Please commit or stash them first."
     exit 1
 fi
+
+# Pull latest changes. If already up-to-date, this does nothing.
+echo "Pulling latest changes..."
+git pull
+check_status "Git pull"
 
 # Activate virtual environment and update dependencies
 echo "Activating virtual environment..."
