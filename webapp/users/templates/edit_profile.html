@@ -1,33 +1,87 @@
 <!-- edit_profile.html -->
 {% extends "base.html" %}
 {% load static %}
+
+{% block body_class %}
+auth-page-bg
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_styles.css' %}"><!-- Add the browser-image-compression library -->
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.min.js"></script>
+<style>
+  /* Inline overrides for dark-mode form controls */
+  .form-control {
+    background-color: #333 !important;
+    color: #fff !important;
+    border: 1px solid #555;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-  <div class="card bg-dark text-light">
-    <div class="card-header">
-      <h2 class="mb-0">Edit Profile</h2>
-    </div>
-    <div class="card-body">
-      <!-- Success/Error message containers -->
-      <div id="message-container" class="alert" style="display: none;"></div>
-      <form id="edit-profile-form" method="post" action="{% url 'rest_user_details' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-          <div class="mb-3">
-            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-            {{ field }}
-            {% if field.help_text %}
-              <div class="form-text text-muted">{{ field.help_text }}</div>
-            {% endif %}
-            {% if field.errors %}
-              <div class="text-danger small">{{ field.errors }}</div>
-            {% endif %}
-          </div>
-        {% endfor %}
-        <div class="d-flex justify-content-end">
-          <button type="submit" class="btn btn-primary">Save Changes</button>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card auth-card text-light">
+        <div class="card-header text-center">
+          <h2 class="mb-0">Edit Your Profile</h2>
         </div>
-      </form>
+        <div class="card-body">
+          <div id="message-container" class="alert" style="display: none;"></div>
+          <form id="edit-profile-form" method="post" action="{% url 'user-detail' user.username %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Profile Picture Section -->
+            <div class="row align-items-center mb-4">
+              <div class="col-md-3 text-center">
+                {% if user.profile_picture %}
+                  <img id="image-preview" src="{{ user.profile_picture.url }}" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;" alt="Profile Preview">
+                {% else %}
+                  <img id="image-preview" src="{% static 'default_profile_picture.jpg' %}" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;" alt="Profile Preview">
+                {% endif %}
+              </div>
+              <div class="col-md-9">
+                <label for="{{ form.profile_picture.id_for_label }}" class="form-label">{{ form.profile_picture.label }}</label>
+                {{ form.profile_picture }}
+              </div>
+            </div>
+
+            <!-- Static Email Display -->
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" value="{{ user.email }}" disabled>
+              <div class="form-text text-white-50">Your email address cannot be changed.</div>
+            </div>
+
+            <!-- Other Fields -->
+            {% for field in form %}
+              {% if field.name != 'profile_picture' %}
+                <div class="mb-3">
+                  <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.name == 'bio' %}
+                    <div class="form-text text-end text-white-50 mt-1">
+                      <span id="bio-char-counter">128</span> characters remaining
+                    </div>
+                  {% endif %}
+                  {% if field.help_text %}
+                    <div class="form-text text-white-50">{{ field.help_text }}</div>
+                  {% endif %}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            <div class="d-flex justify-content-end mt-4">
+              <a href="{% url 'profile' user.username %}" class="btn btn-secondary me-2">Cancel</a>
+              <button type="submit" class="btn btn-auth">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -36,8 +90,67 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  const bioTextarea = document.getElementById('{{ form.bio.id_for_label }}');
+  const bioCharCounter = document.getElementById('bio-char-counter');
+  const bioMaxLength = 128;
+
+  if (bioTextarea && bioCharCounter) {
+    const updateCounter = () => {
+      const remaining = bioMaxLength - bioTextarea.value.length;
+      bioCharCounter.textContent = remaining;
+      bioCharCounter.parentElement.style.color = remaining < 0 ? '#dc3545' : ''; // Use red color if over limit
+    };
+
+    bioTextarea.addEventListener('input', updateCounter);
+    updateCounter(); // Initial call to set the counter on page load
+  }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('edit-profile-form');
   const messageContainer = document.getElementById('message-container');
+  const profilePicInput = document.getElementById('{{ form.profile_picture.id_for_label }}');
+  const imagePreview = document.getElementById('image-preview');
+  let compressedFile = null; // Variable to hold the compressed file for submission
+
+  // --- Image Preview and Compression Logic ---
+  profilePicInput.addEventListener('change', async function(event) {
+    const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    // --- ROBUSTNESS CHECK ---
+    // Ensure the library is loaded before trying to use it.
+    if (typeof window.imageCompression !== 'function') {
+        alert('Image compression library is not available. Please refresh the page.');
+        console.error('browser-image-compression library not found on window object.');
+        return;
+    }
+
+    const options = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 512,
+      useWebWorker: true,
+      initialQuality: 0.8
+    };
+
+    try {
+      console.log(`Original file size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+      compressedFile = await window.imageCompression(file, options);
+      console.log(`Compressed file size: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+
+      imagePreview.src = URL.createObjectURL(compressedFile);
+    } catch (error) {
+      console.error('Image compression error:', error);
+      compressedFile = null;
+      imagePreview.src = URL.createObjectURL(file);
+      alert('Could not compress image. Please try a different file.');
+    }
+  });
+
+  // --- Form Submission Logic ---
 
   form.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -45,37 +158,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // Clear previous messages
     messageContainer.style.display = 'none';
     messageContainer.textContent = '';
-    messageContainer.classList.remove('alert-success', 'alert-danger');
+    messageContainer.classList.remove('alert-success', 'alert-danger', 'alert-info');
 
     const formData = new FormData(form);
 
-    fetch(form.action, {
+    // IMPORTANT: Replace the original file with the compressed one for submission
+    if (compressedFile) {
+      formData.set('profile_picture', compressedFile, compressedFile.name);
+    } else {
+      // If no new file was selected (or compression failed), don't send the field.
+      // This prevents the backend from trying to process an empty value.
+      formData.delete('profile_picture');
+    }
+    
+    // Use our new authenticatedFetch function
+    authenticatedFetch(form.action, {
       method: 'PATCH', // Use PATCH for partial updates
       headers: {
         'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-        // No 'Content-Type' header for FormData, browser sets it
       },
       body: formData
     })
     .then(response => response.json().then(data => ({ status: response.status, body: data })))
     .then(({ status, body }) => {
       if (status === 200) {
-        messageContainer.textContent = 'Profile updated successfully!';
-        messageContainer.classList.add('alert-success');
-        messageContainer.style.display = 'block';
-        // Optionally, redirect after a delay
-        setTimeout(() => {
-          window.location.href = "{% url 'profile' user.username %}";
-        }, 1500);
-      } else {
-        let errorHtml = '<ul>';
-        for (const field in body) {
-          body[field].forEach(error => {
-            errorHtml += `<li>${field}: ${error}</li>`;
-          });
+        // Check for the specific "no changes" message from our custom view
+        if (body.detail === "No changes were made to the profile.") {
+          messageContainer.textContent = body.detail;
+          messageContainer.classList.add('alert-info'); // Use a neutral blue color
+          messageContainer.style.display = 'block';
+        } else {
+          messageContainer.textContent = 'Profile updated successfully!';
+          messageContainer.classList.add('alert-success');
+          messageContainer.style.display = 'block';
+          
+          // Get the new username from the API response and redirect to the new URL
+          const newUsername = body.username;
+          setTimeout(() => {
+            window.location.href = `/profile/${newUsername}/`;
+          }, 1500);
         }
-        errorHtml += '</ul>';
-        messageContainer.innerHTML = errorHtml;
+      } else {
+        // Use textContent to prevent XSS vulnerabilities.
+        messageContainer.innerHTML = ''; // Clear previous errors
+        const errorTitle = document.createElement('strong');
+        errorTitle.textContent = `Error: ${body.error_type || 'UnknownError'}`;
+        messageContainer.appendChild(errorTitle);
+
+        const errorList = document.createElement('ul');
+        const details = body.detail || {};
+
+        // Handle both dictionary of errors (e.g., {'username': ['error']})
+        // and single string detail (e.g., {'detail': 'Not found.'})
+        if (typeof details === 'object' && !Array.isArray(details)) {
+            for (const field in details) {
+                const errorItem = document.createElement('li');
+                errorItem.textContent = `${field}: ${details[field]}`;
+                errorList.appendChild(errorItem);
+            }
+        }
+        messageContainer.appendChild(errorList);
         messageContainer.classList.add('alert-danger');
         messageContainer.style.display = 'block';
       }

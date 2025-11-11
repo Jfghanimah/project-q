@@ -46,7 +46,7 @@ auth-page-bg
             {% endif %}
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-lock"></i></span>
-              <input type="password" name="password" class="form-control" placeholder="Password" required>
+              <input type="password" name="password1" class="form-control" placeholder="Password" required>
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
@@ -54,10 +54,6 @@ auth-page-bg
             </div>
             <div class="form-text text-white-50 mb-4">Your password must contain at least 8 characters and can't be a commonly used password.</div>
 
-            <div class="mb-4">
-              <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture (Optional)</label>
-              {{ form.profile_picture }}
-            </div>
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-auth btn-lg">Register</button>
             </div>
@@ -101,12 +97,12 @@ document.addEventListener('DOMContentLoaded', function() {
       body: formData
     })
     .then(response => {
-      // The registration API returns 201 Created on success
-      if (response.status === 201) {
-        // On successful registration, we can redirect to the login page
-        // or automatically log them in by calling the login API here.
-        // For simplicity, let's redirect to login.
-        window.location.href = "{% url 'login' %}?registered=true";
+      // Our custom view now returns 200 OK on success and logs the user in
+      if (response.ok) {
+        // On successful registration, redirect to the user's new profile page.
+        const username = formData.get('username');
+        // We need to construct the URL manually as we can't use Django tags here easily
+        window.location.href = `/profile/${username}/`;
       } else {
         // If there's an error, display it
         return response.json();
@@ -114,14 +110,21 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(errorData => {
       if (errorData) {
-        let errorHtml = '<ul>';
-        for (const field in errorData) {
-          errorData[field].forEach(error => {
-            errorHtml += `<li>${field}: ${error}</li>`;
-          });
+        // Our custom error handler nests the original error in the 'detail' key.
+        const details = errorData.detail || {};
+        const errorList = document.createElement('ul');
+
+        for (const field in details) {
+            // The value of each field is an array of error strings.
+            details[field].forEach(error => {
+                const listItem = document.createElement('li');
+                // Capitalize field name for better display and replace underscores
+                const fieldName = field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                listItem.textContent = `${fieldName}: ${error}`;
+                errorList.appendChild(listItem);
+            });
         }
-        errorHtml += '</ul>';
-        errorContainer.innerHTML = errorHtml;
+        errorContainer.appendChild(errorList);
         errorContainer.style.display = 'block';
       }
     })

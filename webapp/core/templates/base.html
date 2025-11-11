@@ -85,6 +85,7 @@
             <li><a href="{% url 'home' %}" class="text-white-50 text-decoration-none">Home</a></li>
             <li><a href="/games" class="text-white-50 text-decoration-none">Games</a></li>
             <li><a href="{% url 'about' %}" class="text-white-50 text-decoration-none">About</a></li>
+            <li><a href="{% url 'changelog' %}" class="text-white-50 text-decoration-none">Changelog</a></li>
           </ul>
         </div>
         <div class="col-md-4">
@@ -94,13 +95,31 @@
           <a href="#" class="text-white-50 fs-4 text-decoration-none"><i class="bi bi-facebook"></i></a>
         </div>
       </div>
-      <p class="text-center mt-4 mb-0">&copy; G3 LLC 2025. All Rights Reserved.</p>
+      <p class="text-center mt-4 mb-0">&copy; G3 LLC {% now "Y" %}. All Rights Reserved. | <a href="{% url 'changelog' %}" class="text-white-50 text-decoration-underline">Version: {{ LATEST_VERSION }}</a></p>
     </div>
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{% static 'followToggle.js' %}"></script>
+  <script>
+    // --- Reusable Authenticated Fetch ---
+    // Since we are using HttpOnly cookies for auth, the browser handles sending
+    // credentials automatically. This function is now a simple wrapper around fetch,
+    // but it's kept for consistency and can be extended later if needed.
+    async function authenticatedFetch(url, options = {}) {
+      let response = await fetch(url, options);
+
+      // If response is 401 (e.g., session expired), redirect to login.
+      if (response.status === 401) {
+        // Delay redirect slightly to allow error messages to be seen
+        console.error("Authentication failed (401). Redirecting to login.");
+        setTimeout(() => { window.location.href = "{% url 'login' %}"; }, 2000);
+      }
+
+      return response;
+    }
+  </script>
   {% block scripts %}{% endblock %}
   <script>
     // This script handles the API-driven logout to prevent redirecting to the DRF docs page.

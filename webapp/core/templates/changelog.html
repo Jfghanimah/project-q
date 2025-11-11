@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<style>
+  /* Styles for the changelog timeline */
+  .timeline {
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 18px;
+    height: 100%;
+    width: 4px;
+    background: var(--bs-secondary);
+    opacity: 0.25;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 40px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 5px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: var(--bs-accent);
+    border: 3px solid var(--bs-dark);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<header class="bg-dark py-5">
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold">Changelog</h1>
+    <p class="lead text-white-50">Tracking the evolution of Project Q. See what's new and what's improved.</p>
+  </div>
+</header>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="timeline">
+        <!-- Version 0.1.1 -->
+        <div class="timeline-item">
+          <h2 class="h4">Version 0.1.1 <small class="text-muted fs-6">- Various User Functionality Improvements</small></h2>
+          <p class="text-muted">November 11, 2025</p>
+          <div class="card bg-dark-subtle border-secondary border-opacity-25">
+            <div class="card-body">
+              <h5 class="card-title text-accent">What's New & Improved</h5>
+              <ul class="list-unstyled">
+                <li><span class="badge bg-success me-2">Added</span><strong>Display Names!</strong> Users can now set a separate Display Name in addition to their unique username.</li>
+                <li><span class="badge bg-success me-2">Added</span><strong>Profile Customization:</strong> Users can now add a Clan Tag, Location, and Birthday to their profiles.</li>
+                <li><span class="badge bg-success me-2">Added</span><strong>Robust Image Uploads:</strong> Profile pictures are now validated (max 2MB) and automatically compressed on both the client and server-side for performance and security.</li>
+                <li><span class="badge bg-success me-2">Added</span><strong>Bio Character Counter:</strong> The edit profile page now features a live character counter for the bio field.</li>
+                <li><span class="badge bg-success me-2">Added</span><strong>Test User Creation:</strong> A new management command (`create_test_users`) was added for rapid developer testing.</li>
+                <li><span class="badge bg-info me-2">Changed</span><strong>Seamless Registration:</strong> New users are now automatically logged in after registering, creating a smoother onboarding experience.</li>
+                <li><span class="badge bg-info me-2">Changed</span><strong>Edit Profile UI:</strong> The edit profile page has been completely redesigned to match the site's aesthetic and improve usability.</li>
+                <li><span class="badge bg-info me-2">Changed</span><strong>Follower/Following Pages:</strong> These pages now correctly display the list of users.</li>
+                <li><span class="badge bg-danger me-2">Fixed</span>Resolved numerous authentication bugs, including intermittent `401 Unauthorized` errors and `500 Internal Server Errors` during registration.</li>
+                <li><span class="badge bg-danger me-2">Fixed</span>Corrected an issue causing duplicate profile pictures to be created on every profile save.</li>
+                <li><span class="badge bg-danger me-2">Fixed</span>Fixed a bug causing profile picture file paths to become deeply nested on each upload.</li>
+                <li><span class="badge bg-danger me-2">Fixed</span>Improved API error handling to provide clearer feedback to the user instead of freezing the page.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Version 0.1.0 -->
+        <div class="timeline-item">
+          <h2 class="h4">Version 0.1.0 <small class="text-muted fs-6">- Foundation & Initial Release</small></h2>
+          <p class="text-muted">October 2025</p>
+          <div class="card bg-dark-subtle border-secondary border-opacity-25">
+            <div class="card-body">
+              <h5 class="card-title text-accent">What's New</h5>
+              <ul class="list-unstyled">
+                <li><span class="badge bg-success me-2">Added</span>Initial project structure and core application setup.</li>
+                <li><span class="badge bg-success me-2">Added</span>Custom user model with email-based authentication.</li>
+                <li><span class="badge bg-success me-2">Added</span>API-driven registration, login, and logout functionality.</li>
+                <li><span class="badge bg-success me-2">Added</span>Homepage with hero section and feature overview.</li>
+                <li><span class="badge bg-success me-2">Added</span>Basic 'About' and 'Changelog' pages.</li>
+                <li><span class="badge bg-info me-2">Changed</span>Refined the visual theme with a dark mode aesthetic and accent colors.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

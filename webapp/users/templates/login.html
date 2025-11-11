@@ -89,18 +89,25 @@ document.addEventListener('DOMContentLoaded', function() {
       body: JSON.stringify(data)
     })
     .then(response => {
+      const responsePromise = response.json(); // Get the JSON promise
       if (response.ok) {
-        // If login is successful (status 200-299), redirect to the homepage.
-        // The auth cookie is set automatically by the server.
+        // With HttpOnly cookies, the browser handles the session. Just redirect.
         window.location.href = "{% url 'home' %}";
       } else {
         // If there's an error, display it
-        return response.json();
+        return responsePromise;
       }
     })
     .then(errorData => {
       if (errorData) {
-        errorMessageDiv.textContent = errorData.non_field_errors || 'An unknown error occurred.';
+        // Our custom error handler nests the original error in the 'detail' key.
+        const errors = errorData.detail || {};
+        // dj-rest-auth puts login errors in 'non_field_errors'.
+        // Sometimes it's just in a 'detail' field. We check for both.
+        const errorMessage = errors.non_field_errors?.[0] 
+                           || (typeof errors.detail === 'string' ? errors.detail : null) 
+                           || 'An unknown error occurred.';
+        errorMessageDiv.textContent = errorMessage;
         errorMessageDiv.style.display = 'block';
       }
     })

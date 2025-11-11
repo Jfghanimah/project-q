@@ -12,21 +12,39 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
         help_text='32 characters or fewer. Letters, digits and @/./+/-/_ only.'
     )
-    profile_picture = forms.ImageField(
-        required=False,
-        widget=forms.FileInput(attrs={'class': 'form-control'})
-    )
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'profile_picture')
+        fields = ('email', 'username')
 
 class CustomUserChangeForm(UserChangeForm):
     password = None  # Exclude password from the form
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Safely apply widget attributes only if the field exists in the form instance
+        for field_name, config in self.get_widget_configs().items():
+            if field_name in self.fields:
+                self.fields[field_name].widget.attrs.update(config.get('attrs', {}))
+                if 'widget' in config:
+                    self.fields[field_name].widget = config['widget']
+                if 'help_text' in config:
+                    self.fields[field_name].help_text = config['help_text']
+
+    def get_widget_configs(self):
+        return {
+            'username': {'attrs': {'class': 'form-control'}},
+            'display_name': {'attrs': {'class': 'form-control'}},
+            'profile_picture': {'widget': forms.FileInput(attrs={'class': 'form-control'}), 'help_text': 'Max file size: 2MB. Image will be resized to 512x512.'},
+            'bio': {'widget': forms.Textarea(attrs={'class': 'form-control', 'rows': 3})},
+            'clan_tag': {'attrs': {'class': 'form-control'}},
+            'location': {'attrs': {'class': 'form-control'}},
+            'birthday': {'widget': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})},
+        }
+
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'profile_picture', 'bio')
+        fields = ('display_name', 'username', 'profile_picture', 'bio', 'clan_tag', 'location', 'birthday')
 
 class CustomAuthenticationForm(forms.Form):
     """

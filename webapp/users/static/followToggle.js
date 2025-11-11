@@ -1,34 +1,36 @@
 $(document).ready(function() {
-  // Bind click event on all buttons with class 'follow-toggle'
-  $('.follow-toggle').click(function(e) {
+  // Use event delegation to handle clicks on buttons added dynamically
+  $(document).on('click', '.follow-toggle', function(e) {
     e.preventDefault();
     var $btn = $(this);
     var actionUrl = $btn.data('action-url');
+    var currentState = $btn.data('state');
+    var method = (currentState === 'following') ? 'DELETE' : 'POST';
+
     $.ajax({
       url: actionUrl,
-      type: 'POST',
-      data: {
-        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').first().val()
-      },
+      type: method, // Use POST to follow, DELETE to unfollow
       success: function(response) {
-        //alert(response.message);
-        // Toggle button state based on current state:
-        if ($btn.data('state') === 'following') {
-          // Switch from following to not following:
+        // Update follower count if the element exists
+        var $followerCount = $('.follower-count-number');
+        if ($followerCount.length && response.follower_count !== undefined) {
+          $followerCount.text(response.follower_count);
+        }
+
+        // Toggle button state
+        if (method === 'DELETE') {
+          // Switched from following to not_following
           $btn.data('state', 'not_following');
-          $btn.removeClass('btn-following btn-danger').addClass('btn-follow');
-          $btn.text("Follow");
-          $btn.data('action-url', $btn.data('follow-url'));
+          $btn.removeClass('btn-following btn-danger').addClass('btn-follow').text("Follow");
         } else {
-          // Switch from not following to following:
+          // Switched from not_following to following
           $btn.data('state', 'following');
-          $btn.removeClass('btn-follow').addClass('btn-following');
-          $btn.text("Following");
-          $btn.data('action-url', $btn.data('unfollow-url'));
+          $btn.removeClass('btn-follow').addClass('btn-following').text("Following");
         }
       },
       error: function(xhr) {
-        alert("Error: " + (xhr.responseJSON.error || "Unknown error"));
+        const error = xhr.responseJSON?.detail?.error || "An unknown error occurred.";
+        alert("Error: " + error);
       }
     });
   });
@@ -68,7 +70,7 @@ function getCookie(name) {
   return cookieValue;
 }
 var csrftoken = getCookie('csrftoken');
-
+ 
 function csrfSafeMethod(method) {
   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }

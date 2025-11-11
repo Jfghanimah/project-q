@@ -5,20 +5,107 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import exception_handler
+from dj_rest_auth.utils import jwt_encode
+from dj_rest_auth.registration.views import RegisterView
+from dj_rest_auth.jwt_auth import JWTCookieAuthentication
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm
 from .models import GameList, Rating, CustomUser, UserFollower, Activity, Notification
 from .serializers import CustomUserSerializer
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+def custom_exception_handler(exc, context):
+    """
+    Custom API exception handler.
+    Returns a consistent, more informative error structure.
+    """
+    # Call REST framework's default exception handler first
+    response = exception_handler(exc, context)
+
+    # If DRF handled the exception, we'll reformat its response
+    if response is not None:
+        custom_response = {
+            'error_type': exc.__class__.__name__,
+            'status_code': response.status_code,
+            'detail': response.data
+        }
+        response.data = custom_response
+    # If DRF can't handle the exception, we return None.
+    # This allows Django's default error handling to take over and show the debug page.
+
+    return response
+
+
+class CustomRegisterView(RegisterView):
+    """
+    Custom registration view to automatically log the user in
+    and set the auth cookie upon successful registration.
+    """
+    def perform_create(self, serializer):
+        # Create the user as normal
+        user = super().perform_create(serializer)
+        return user
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_create(serializer)
+
+        # Manually create JWT tokens
+        access_token, refresh_token = jwt_encode(user)
+
+        # Use the CustomUserSerializer to get the user data for the response
+        data = CustomUserSerializer(user, context=self.get_serializer_context()).data
+        data['access'] = str(access_token)
+        data['refresh'] = str(refresh_token)
+
+        # Create the final response object
+        response = Response(data, status=status.HTTP_201_CREATED)
+
+        # Set the JWT cookies on the response
+        from dj_rest_auth.app_settings import api_settings
+        response.set_cookie(api_settings.JWT_AUTH_COOKIE, access_token, httponly=True)
+        response.set_cookie(api_settings.JWT_AUTH_REFRESH_COOKIE, refresh_token, httponly=True)
+
+        return response
+
+
+class UserViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing user profiles and handling user actions like following.
     """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+    authentication_classes = [JWTCookieAuthentication]
     permission_classes = [IsAuthenticated]
     lookup_field = 'username'  # Use username instead of pk for lookups
+
+    def update(self, request, *args, **kwargs):
+        """
+        Custom update method to detect if any changes were actually made.
+        """
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+
+        # Serialize the original data to compare against later
+        original_serializer = self.get_serializer(instance)
+        original_data = original_serializer.data
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        # Refresh the instance from the DB to get the final state
+        instance.refresh_from_db()
+        updated_serializer = self.get_serializer(instance)
+
+        # Compare the data before and after the update
+        if original_data == updated_serializer.data:
+            return Response({"detail": "No changes were made to the profile."}, status=status.HTTP_200_OK)
+
+        return Response(updated_serializer.data)
+
 
     @action(detail=True, methods=['post', 'delete'], url_path='follow')
     def follow_unfollow(self, request, username):
@@ -108,20 +195,25 @@ def edit_profile(request, username):
 def followers_page(request, username):
     profile_user = get_object_or_404(CustomUser, username=username)
     # Get all users that follow the profile_user
-    followers = CustomUser.objects.filter(following__user=profile_user)
+    # This is a more explicit and reliable way to get the followers
+    follower_ids = UserFollower.objects.filter(user=profile_user).values_list('follower_id', flat=True)
+    followers = CustomUser.objects.filter(id__in=follower_ids)
 
-    # Check which of these followers the current logged-in user is also following
-    following_by_request_user = set()
+    # Create a list of tuples: (follower_user, is_followed_by_request_user)
+    followers_with_status = []
     if request.user.is_authenticated:
-        following_by_request_user = set(
-            UserFollower.objects.filter(follower=request.user, user__in=followers)
-            .values_list('user_id', flat=True)
-        )
+        # Get a set of IDs for users the request.user is following, for efficient lookup
+        following_ids = set(request.user.following.values_list('user_id', flat=True))
+        for follower in followers:
+            is_followed = follower.id in following_ids
+            followers_with_status.append((follower, is_followed))
+    else:
+        for follower in followers:
+            followers_with_status.append((follower, False))
 
     context = {
         'profile_user': profile_user,
-        'followers': followers,
-        'following_by_request_user': following_by_request_user,
+        'followers_with_status': followers_with_status,
     }
     return render(request, 'followers.html', context)
 
@@ -129,18 +221,24 @@ def followers_page(request, username):
 def following_page(request, username):
     profile_user = get_object_or_404(CustomUser, username=username)
     # Get all users that the profile_user is following
-    following = CustomUser.objects.filter(followers__follower=profile_user)
+    # This is a more explicit and reliable way to get the users being followed
+    following_ids_subquery = UserFollower.objects.filter(follower=profile_user).values_list('user_id', flat=True)
+    following = CustomUser.objects.filter(id__in=following_ids_subquery)
 
-    # Check which of these users the current logged-in user is also following
-    following_by_request_user = set()
+    # Create a list of tuples: (followed_user, is_followed_by_request_user)
+    following_with_status = []
     if request.user.is_authenticated:
-        following_by_request_user = set(
-            UserFollower.objects.filter(follower=request.user, user__in=following)
-            .values_list('user_id', flat=True)
-        )
+        # Get a set of IDs for users the request.user is following, for efficient lookup
+        following_ids = set(request.user.following.values_list('user_id', flat=True))
+        for followed_user in following:
+            is_followed = followed_user.id in following_ids
+            following_with_status.append((followed_user, is_followed))
+    else:
+        for followed_user in following:
+            following_with_status.append((followed_user, False))
+
     context = {
         'profile_user': profile_user,
-        'following': following,
-        'following_by_request_user': following_by_request_user,
+        'following_with_status': following_with_status,
     }
     return render(request, 'following.html', context)

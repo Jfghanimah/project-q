@@ -20,6 +20,11 @@ urlpatterns = [
     # API endpoints for user actions
     path('api/', include(router.urls)),
 
+    # Add dj-rest-auth URLs for login, logout, registration, etc.
+    path('api/auth/', include('dj_rest_auth.urls')),
+    # Override the default registration view with our custom one that logs the user in
+    path('api/auth/registration/', views.CustomRegisterView.as_view(), name='rest_register'),
+
     # Password Reset flow - using Django's built-in views which work with templates
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),

@@ -3,6 +3,12 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'user_styles.css' %}">
+<style>
+  .profile-sidebar h3, .profile-sidebar p {
+    /* Ensures long text wraps instead of overflowing */
+    overflow-wrap: break-word;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -14,11 +20,15 @@
         {% if profile_user.profile_picture %}
             <img src="{{ profile_user.profile_picture.url }}" class="profile-avatar" alt="Profile Picture">
         {% else %}
-            <img src="{% static 'images/default_profile_picture.jpg' %}" class="profile-avatar" alt="Default Profile Picture">
+            <img src="{% static 'default_profile_picture.jpg' %}" class="profile-avatar" alt="Default Profile Picture">
         {% endif %}
-        <h3 class="mt-3">{{ profile_user.username }}</h3>
-        <p class="mb-1"><small>{{ profile_user.email }}</small></p>
+        <h3 class="mt-3">{{ profile_user.display_name }} {% if profile_user.clan_tag %}<span class="text-accent">[{{ profile_user.clan_tag }}]</span>{% endif %}</h3>
+        <p class="mb-1 text-white-50"><small>@{{ profile_user.username }}</small></p>
         <p class="mb-1"><small>Joined on {{ profile_user.date_joined|date:"F j, Y" }}</small></p>
+        
+        {% if profile_user.location %}
+          <p class="mb-1"><small><i class="bi bi-geo-alt-fill me-1"></i>{{ profile_user.location }}</small></p>
+        {% endif %}
         
         {% if is_owner %}
             <!-- Edit Profile Button for the owner -->
@@ -38,11 +48,11 @@
         <hr>
         <div class="follow-counts">
           <a href="{% url 'following_page' profile_user.username %}">
-            <span class="number">{{ profile_user.following.count }}</span>
+            <span class="number">{{ profile_user.following.count|default:0 }}</span>
             <span class="label">Following</span>
           </a>
           <a href="{% url 'followers_page' profile_user.username %}">
-            <span class="number">{{ profile_user.followers.count }}</span>
+            <span class="number follower-count-number">{{ profile_user.followers.count|default:0 }}</span>
             <span class="label">Followers</span>
           </a>
         </div>

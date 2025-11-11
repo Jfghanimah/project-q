@@ -9,22 +9,22 @@
 <div class="container mt-5">
   <h2>{{ profile_user.username }} is Following</h2>
   <ul class="list-group">
-    {% for followed in following %}
+    {% for followed, is_following in following_with_status %}
       <li class="list-group-item d-flex align-items-center bg-dark text-light">
         <div class="d-flex align-items-center">
           {% if followed.profile_picture %}
             <img src="{{ followed.profile_picture.url }}" alt="{{ followed.username }}'s Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
           {% else %}
-            <img src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
+            <img src="{% static 'default_profile_picture.jpg' %}" alt="Default Profile Picture" class="rounded-circle" style="width:50px; height:50px; object-fit:cover;">
           {% endif %}
           <div class="ms-3">
-            <a href="{% url 'profile' followed.username %}" class="text-white fw-bold">{{ followed.username }}</a>
+            <a href="{% url 'profile' followed.username %}" class="text-white fw-bold text-decoration-none">{{ followed.display_name }} <span class="text-white-50 fw-normal">@{{ followed.username }}</span></a>
             <p class="mb-0" style="color: #aaa; font-size: 0.9em;">{{ followed.bio|default:"No bio available" }}</p>
           </div>
         </div>
         {% if request.user.is_authenticated and request.user != followed %}
           <div class="ms-auto">
-            {% include '_follow_button.html' with target_user=followed is_following=followed.id in following_by_request_user %}
+            {% include '_follow_button.html' with target_user=followed is_following=is_following %}
           </div>
         {% endif %}
       </li>
